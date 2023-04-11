@@ -1,0 +1,6 @@
+Admin Slots
+<ul>
+  <li *ngFor="let slot of slots$ | async">
+    {{slot.courseDate | date : 'shortDate'}} - {{slot.courseTime}}
+  </li>
+</ul>
