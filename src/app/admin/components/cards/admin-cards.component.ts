@@ -5,6 +5,9 @@ import {MatDialog} from "@angular/material/dialog";
 import {StandardConfirmDialog} from "../../../shared/components/standard-confirm-dialog";
 import {Card} from '../../../shared/model/card';
 import {DeleteCard, ValidateCard} from '../../state/admin-actions';
+import {UserRestService} from '../../../shared/services/user-rest-service';
+import {Auth0User} from '../../../shared/model/auth0-user';
+import {StandardSimpleDialog} from '../../../shared/components/standard-simple-dialog';
 
 @Component({
   templateUrl: './admin-cards.component.html',
@@ -15,7 +18,9 @@ export class AdminCardsComponent {
   @Select(state => state.admin.cards) cards$: Observable<Card[]>
   displayedColumns: string[] = ['user', 'status', 'createdTime', 'actions']
 
-  constructor(private dialog: MatDialog, private store: Store) {
+  userTooltip: Auth0User;
+
+  constructor(private dialog: MatDialog, private store: Store, private userRestService: UserRestService) {
   }
 
   validate(id: number): void {
@@ -31,4 +36,11 @@ export class AdminCardsComponent {
     });
   }
 
+  userInfo(userId: string) {
+    this.userRestService.manageFindByUserId(userId).subscribe(user => {
+      this.dialog.open(StandardSimpleDialog, {
+        data: {content: "<pre>" + JSON.stringify(user, null, 4) + "</pre>"},
+      });
+    })
+  }
 }
