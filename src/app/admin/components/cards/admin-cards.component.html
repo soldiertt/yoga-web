@@ -1,0 +1,36 @@
+<mat-toolbar color="accent">
+  <h1>Demande de cartes</h1>
+  <span class="expand"></span>
+<!--  <button mat-fab (click)="createDialog()">-->
+<!--    <mat-icon>add_circle</mat-icon>-->
+<!--  </button>-->
+</mat-toolbar>
+<main>
+  <table mat-table [dataSource]="cards$" class="mat-elevation-z8">
+    <ng-container matColumnDef="user">
+      <th mat-header-cell *matHeaderCellDef>Utilisateur</th>
+      <td mat-cell *matCellDef="let element"> {{element.userId}} </td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Statut</th>
+      <td mat-cell *matCellDef="let element"><span [ngClass]="element.status">{{element.status}}</span></td>
+    </ng-container>
+    <ng-container matColumnDef="createdTime">
+      <th mat-header-cell *matHeaderCellDef>Date de demande</th>
+      <td mat-cell *matCellDef="let element"> {{element.createdTime | date}} </td>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef></th>
+      <td mat-cell *matCellDef="let element">
+        <button mat-icon-button color="primary" (click)="validate(element.id)" *ngIf="element.status === 'PENDING'">
+          <mat-icon>done</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" (click)="deleteDialog(element.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</main>

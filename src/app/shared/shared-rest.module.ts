@@ -1,15 +1,16 @@
 import {NgModule} from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
 import {SlotRestService} from './services/slot-rest-service';
 import {environment} from '../../environments/environment';
+import {CardRestService} from './services/card-rest-service';
 
 @NgModule({
   imports: [
-    HttpClientModule
+
   ],
   providers: [
+    CardRestService,
     SlotRestService,
-    { provide: 'API_ENDPOINT', useValue: environment.apiEndpoint},
+    { provide: 'API_ENDPOINT', useValue: environment.apiEndpoint}
   ]
 })
 export class SharedRestModule {}

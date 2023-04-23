@@ -1,4 +1,24 @@
 <mat-toolbar color="primary">
-  <span>Yoga Admin</span>
+  <span routerLink="/admin">Yoga Admin</span>
   <button mat-stroked-button routerLink="slots">Planning</button>
+  <button mat-stroked-button routerLink="cards">Cartes</button>
+  <span class="expand"></span>
+
+  <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
+    <ng-container *ngIf="auth.user$ | async as user">
+      <button mat-fab [matMenuTriggerFor]="menu">
+         <img [ngSrc]="user.picture!" width="50" height="50" class="user-picture">
+      </button>
+      <mat-menu #menu="matMenu">
+        <span mat-menu-item disabled class="small-menu-item">{{ user.email }}</span>
+        <button mat-menu-item (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })">
+          Log out
+        </button>
+      </mat-menu>
+    </ng-container>
+  </ng-container>
+  <ng-template #loggedOut>
+    <button mat-button (click)="auth.loginWithRedirect()">Log in</button>
+  </ng-template>
+
 </mat-toolbar>

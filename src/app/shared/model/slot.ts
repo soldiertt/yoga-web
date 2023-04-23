@@ -1,5 +1,5 @@
 export interface Slot {
-  id: number;
+  id?: number;
   courseDate: string;
   courseTime: string;
 }

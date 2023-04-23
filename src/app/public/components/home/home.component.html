@@ -1,1 +1,28 @@
 Hi, Home component
+<ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
+  <ng-container *ngIf="auth.user$ | async as user">
+    {{ user.name }} {{ user.email }}
+    <button mat-button routerLink="admin">
+      Admin
+    </button>
+    <button mat-button (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })">
+      Log out
+    </button>
+  </ng-container>
+</ng-container>
+<ng-template #loggedOut>
+  <button mat-button (click)="auth.loginWithRedirect()">Log in</button>
+</ng-template>
+
+<ng-container *ngFor="let card of cards$ | async">
+  <p>{{card.createdTime}} - {{card.status}} -
+    <span *ngIf="card.status === 'PENDING'">Votre demande de carte est actuellement en cours...,
+      veuillez vérifier que votre paiement a été effectué et veuillez attendre quelques jours ouvrables pour réception.</span>
+  </p>
+</ng-container>
+<ng-container *ngIf="(cards$ | async)?.length === 0">
+  <p>Interessé par une carte 10 voyages ?</p>
+  <button mat-button (click)="orderCard()">
+    Cliquer ici
+  </button>
+</ng-container>
