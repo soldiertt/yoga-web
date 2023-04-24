@@ -13,6 +13,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {MatLuxonDateModule} from "@angular/material-luxon-adapter";
 import {SortSlotsPipe} from "./components/pipes/sort-slots-pipe";
 import {AdminCardsComponent} from './components/cards/admin-cards.component';
+import {SharedUtilModule} from '../shared/shared-util.module';
 
 @NgModule({
   declarations: [
@@ -27,11 +28,12 @@ import {AdminCardsComponent} from './components/cards/admin-cards.component';
     AdminRoutingModule,
     CommonModule,
     MatLuxonDateModule,
+    NgOptimizedImage,
     NgxsModule.forFeature([AdminState]),
     ReactiveFormsModule,
     SharedMaterialModule,
     SharedRestModule,
-    NgOptimizedImage
+    SharedUtilModule
   ]
 })
 export class AdminModule {

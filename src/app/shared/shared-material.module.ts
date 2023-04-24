@@ -14,30 +14,24 @@ import {StandardConfirmDialog} from "./components/standard-confirm-dialog";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {StandardSimpleDialog} from './components/standard-simple-dialog';
+import {MatListModule} from '@angular/material/list';
+import {MatDividerModule} from '@angular/material/divider';
 
 @NgModule({
-  declarations: [
-    StandardConfirmDialog,
-    StandardSimpleDialog
-  ],
-  imports: [
-    MatButtonModule,
-    MatDialogModule
-  ],
   exports: [
     MatButtonModule,
     MatDatepickerModule,
     MatDialogModule,
+    MatDividerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatListModule,
     MatMenuModule,
     MatSelectModule,
     MatTableModule,
     MatToolbarModule,
-    MatTooltipModule,
-    StandardConfirmDialog,
-    StandardSimpleDialog
+    MatTooltipModule
   ],
   providers: [
     {provide: MAT_DATE_FORMATS, useValue: MAT_LUXON_DATE_FORMATS},

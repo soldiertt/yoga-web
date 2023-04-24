@@ -9,11 +9,11 @@ export class SlotRestService {
   constructor(private http: HttpClient,  @Inject('API_ENDPOINT') private BASE_URL: string) {
   }
 
-  manageFindAll(): Observable<Slot[]> {
-    return this.http.get<Slot[]>(`${this.BASE_URL}/manage/${this.entityName()}`)
+  publicFindAll(): Observable<Slot[]> {
+    return this.http.get<Slot[]>(`${this.BASE_URL}/public/${this.entityName()}`)
   }
 
-  manageCreate(entity: Slot): Observable<Slot> {
+  manageCreate(entity: Partial<Slot>): Observable<Slot> {
     return this.http.post<Slot>(`${this.BASE_URL}/manage/${this.entityName()}`, entity)
   }
 

@@ -29,7 +29,7 @@ export class AdminState {
 
   @Action(LoadAdminState)
   loadAdminState(ctx: StateContext<AdminStateModel>) {
-    return combineLatest([this.slotRestservice.manageFindAll(), this.cardRestService.manageFindAll()]).pipe(
+    return combineLatest([this.slotRestservice.publicFindAll(), this.cardRestService.manageFindAll()]).pipe(
       tap(([slots, cards]) => {
         ctx.patchState({
           slots, cards

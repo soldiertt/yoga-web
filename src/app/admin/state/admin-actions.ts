@@ -5,7 +5,7 @@ export class LoadAdminState {
 }
 export class CreateSlot {
   static readonly type = '[Admin] Create slot';
-  constructor(public slot: Slot) {}
+  constructor(public slot: Partial<Slot>) {}
 }
 export class DeleteSlot {
   static readonly type = '[Admin] Delete slot';

@@ -22,6 +22,10 @@ export class CardRestService {
     return this.http.post<Card>(`${this.BASE_URL}/private/${this.entityName()}`, {userId})
   }
 
+  privateBook(userId: string, slotId: number): Observable<Card> {
+    return this.http.post<Card>(`${this.BASE_URL}/private/${this.entityName()}/slots`, {userId, slotId})
+  }
+
   privateFindByUserId(userId: string): Observable<Card[]> {
     return this.http.get<Card[]>(`${this.BASE_URL}/private/${this.entityName()}/${userId}`)
   }

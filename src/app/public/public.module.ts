@@ -7,6 +7,8 @@ import {MatMenuModule} from "@angular/material/menu";
 import {NgxsModule} from '@ngxs/store';
 import {PublicState} from './state/public-state';
 import {SharedRestModule} from '../shared/shared-rest.module';
+import {SharedMaterialModule} from '../shared/shared-material.module';
+import {SharedUtilModule} from '../shared/shared-util.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import {SharedRestModule} from '../shared/shared-rest.module';
     MatButtonModule,
     MatMenuModule,
     NgxsModule.forFeature([PublicState]),
-    SharedRestModule
+    SharedMaterialModule,
+    SharedRestModule,
+    SharedUtilModule
   ]
 })
 export class PublicModule {}
