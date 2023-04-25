@@ -5,7 +5,7 @@ import {AuthService} from '@auth0/auth0-angular';
 import {mergeMap, tap} from 'rxjs';
 import {Authentication} from './actions/authentication';
 import {CardRestService} from '../../shared/services/card-rest-service';
-import {BookSlot, CreateCard} from './actions/card-actions';
+import {BookSlot, CreateCard, UnbookSlot} from './actions/card-actions';
 import {append, patch, updateItem} from '@ngxs/store/operators';
 import {Slot} from '../../shared/model/slot';
 import {LoadPublicState} from './actions/load-public-state';
@@ -33,7 +33,9 @@ export class PublicState {
   @Selector()
   static bookedSlots(state: PublicStateModel) {
     return state.cards
-      .flatMap(c => c.slots);
+      .flatMap(c =>
+        c.slots.map(s => ({card: c, slot: s}))
+      );
   }
 
   constructor(private auth: AuthService,
@@ -56,7 +58,7 @@ export class PublicState {
       tap(user => {
         ctx.patchState({userId: user!.sub})
       }),
-      mergeMap(user => this.cardRestService.privateFindByUserId(user!.sub!)),
+      mergeMap(() => this.cardRestService.privateFindByUserId()),
       tap(cards => {
         const canBook = cards.some(c => c.status === 'ACTIVE' && c.slots.length < c.capacity);
         ctx.patchState({cards, canBook})
@@ -68,7 +70,7 @@ export class PublicState {
   createCardRequest(ctx: StateContext<PublicStateModel>) {
     const userId = ctx.getState().userId;
     if (userId) {
-      return this.cardRestService.privateCreate(userId).pipe(
+      return this.cardRestService.privateCreate().pipe(
         tap(card => {
           ctx.setState(patch({cards: append([card])}))
         })
@@ -81,7 +83,22 @@ export class PublicState {
   bookSlot(ctx: StateContext<PublicStateModel>, action: BookSlot) {
     const userId = ctx.getState().userId;
     if (userId) {
-      return this.cardRestService.privateBook(userId, action.id).pipe(
+      return this.cardRestService.privateBook(action.id).pipe(
+        tap(card => {
+          ctx.setState(patch({cards: updateItem(c => c.id === card.id, card)}))
+          const canBook = ctx.getState().cards.some(c => c.status === 'ACTIVE' && c.slots.length < c.capacity);
+          ctx.patchState({canBook})
+        })
+      )
+    }
+    return
+  }
+
+  @Action(UnbookSlot)
+  unbookSlot(ctx: StateContext<PublicStateModel>, action: UnbookSlot) {
+    const userId = ctx.getState().userId;
+    if (userId) {
+      return this.cardRestService.privateDeleteSlot(action.cardId, action.slotId).pipe(
         tap(card => {
           ctx.setState(patch({cards: updateItem(c => c.id === card.id, card)}))
           const canBook = ctx.getState().cards.some(c => c.status === 'ACTIVE' && c.slots.length < c.capacity);

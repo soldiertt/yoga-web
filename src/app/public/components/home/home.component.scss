@@ -11,3 +11,34 @@
 .slot-list {
   max-width: 500px;
 }
+
+.booked {
+  background-color: green;
+  color: white;
+  padding: 0 5px;
+  margin: 0 10px 0 0;
+}
+
+.card-ref {
+  background-color: orange;
+  color: black;
+  padding: 0 5px;
+  margin: 0 10px 0 0;
+}
+
+.yo-list {
+  list-style: none;
+  padding-left: 20px;
+  .yo-list-item {
+    display: grid;
+    grid-template-columns: 50px auto 200px 100px;
+    border-bottom: 1px solid lightgrey;
+    margin-bottom: 10px;
+    .mdc-icon-button {
+      border: 0;
+      padding: 0;
+      height: fit-content;
+      width: fit-content;
+    }
+  }
+}

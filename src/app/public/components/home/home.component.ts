@@ -4,7 +4,7 @@ import {DOCUMENT} from "@angular/common";
 import {Select, Store} from '@ngxs/store';
 import {Observable, combineLatest, takeUntil, Subject} from 'rxjs';
 import {Card} from '../../../shared/model/card';
-import {BookSlot, CreateCard} from '../../state/actions/card-actions';
+import {BookSlot, CreateCard, UnbookSlot} from '../../state/actions/card-actions';
 import {Slot} from '../../../shared/model/slot';
 import {LoadPublicState} from '../../state/actions/load-public-state';
 import {PublicState} from '../../state/public-state';
@@ -18,21 +18,18 @@ export class HomeComponent implements OnDestroy {
   @Select(state => state.public.cards) cards$: Observable<Card[]>
   @Select(state => state.public.slots) slots$: Observable<Slot[]>
   @Select(state => state.public.canBook) canBook$: Observable<boolean>
-  @Select(PublicState.bookedSlots) bookedSlots$: Observable<Slot[]>
-  availableSlots: Record<number, boolean> = {}
+  @Select(PublicState.bookedSlots) bookedSlots$: Observable<{card: Card, slot: Slot}[]>
+  bookedSlots: {card: Card, slot: Slot}[]
   private readonly destroy$ = new Subject<void>();
 
   constructor(@Inject(DOCUMENT) public document: Document,
               public auth: AuthService,
               public store: Store) {
     this.store.dispatch(new LoadPublicState())
-    combineLatest([this.slots$, this.bookedSlots$])
-      .pipe(takeUntil(this.destroy$))
+    this.bookedSlots$.pipe(takeUntil(this.destroy$))
       .subscribe(
-      ([slots, bookedSlots]) => {
-        slots.forEach(slot => {
-          this.availableSlots[slot.id] = !bookedSlots.map(b=>b.id).includes(slot.id)
-        })
+      (bookedSlots) => {
+        this.bookedSlots = bookedSlots
       }
     )
   }
@@ -46,10 +43,19 @@ export class HomeComponent implements OnDestroy {
     this.store.dispatch(new CreateCard())
   }
 
-  canBook(id: number): boolean {
-    return this.availableSlots[id];
+  getBookedSlot(slotId: number): {card: Card, slot: Slot} | undefined {
+    return this.bookedSlots.find(bs => bs.slot.id === slotId)
   }
+
+  getBookedSlotsCount(cardId: number): number {
+    return this.bookedSlots.filter(bs => bs.card.id === cardId).length;
+  }
+
   bookSlot(id: number): void {
     this.store.dispatch(new BookSlot(id))
+  }
+
+  unbookSlot({card, slot} : {card: Card, slot: Slot}): void {
+    this.store.dispatch(new UnbookSlot(card.id, slot.id))
   }
 }

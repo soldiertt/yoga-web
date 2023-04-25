@@ -6,8 +6,8 @@ export class CardIdPipe implements PipeTransform {
     if (!value) {
       return undefined;
     }
-    const s = "0000" + value;
-    return s.substring(s.length - 5);
+    const s = "card0000" + value;
+    return s.substring(s.length - 9);
   }
 
 }

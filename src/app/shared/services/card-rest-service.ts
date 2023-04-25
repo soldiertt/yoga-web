@@ -18,16 +18,20 @@ export class CardRestService {
   manageDelete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.BASE_URL}/manage/${this.entityName()}/${id}`)
   }
-  privateCreate(userId: string): Observable<Card> {
-    return this.http.post<Card>(`${this.BASE_URL}/private/${this.entityName()}`, {userId})
+  privateCreate(): Observable<Card> {
+    return this.http.post<Card>(`${this.BASE_URL}/private/${this.entityName()}`, {})
   }
 
-  privateBook(userId: string, slotId: number): Observable<Card> {
-    return this.http.post<Card>(`${this.BASE_URL}/private/${this.entityName()}/slots`, {userId, slotId})
+  privateBook(slotId: number): Observable<Card> {
+    return this.http.post<Card>(`${this.BASE_URL}/private/${this.entityName()}/slots`, {slotId})
   }
 
-  privateFindByUserId(userId: string): Observable<Card[]> {
-    return this.http.get<Card[]>(`${this.BASE_URL}/private/${this.entityName()}/${userId}`)
+  privateDeleteSlot(cardId: number, slotId: number): Observable<Card> {
+    return this.http.delete<Card>(`${this.BASE_URL}/private/${this.entityName()}/${cardId}/slots/${slotId}`)
+  }
+
+  privateFindByUserId(): Observable<Card[]> {
+    return this.http.get<Card[]>(`${this.BASE_URL}/private/${this.entityName()}`)
   }
 
   private entityName(): string {

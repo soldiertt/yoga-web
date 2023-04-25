@@ -14,40 +14,58 @@ Hi, Home component
   <button mat-button (click)="auth.loginWithRedirect()">Log in</button>
 </ng-template>
 
-<mat-list>
-  <div mat-subheader>Mes cartes</div>
-  <mat-list-item *ngFor="let card of cards$ | async">
-    <mat-icon matListItemIcon>badge</mat-icon>
-    <div matListItemTitle>{{card.id | cardId}} <span [ngClass]="card.status">{{card.status}}</span></div>
-    <div matListItemLine>{{card.createdTime | date}}</div>
-    <div *ngIf="card.status === 'PENDING'">Votre demande de carte est actuellement en cours...,
-      veuillez vérifier que votre paiement a été effectué et veuillez attendre quelques jours ouvrables pour réception.
-    </div>
-  </mat-list-item>
-  <mat-divider></mat-divider>
-  <div mat-subheader>Mes réservations</div>
-  <mat-list-item *ngFor="let bookedSlot of bookedSlots$ | async">
-    <mat-icon matListItemIcon>note</mat-icon>
-    <div matListItemTitle>{{bookedSlot.courseDate}}</div>
-    <div matListItemLine>{{bookedSlot.courseTime}}</div>
-  </mat-list-item>
-</mat-list>
-
+<h2>Mes cartes</h2>
 <ng-container *ngIf="(cards$ | async)?.length === 0">
-  <p>Interessé par une carte 10 voyages ?</p>
+  <p>Vous n'avez actuellement aucune carte.</p>
+  <p>Interessé par une carte 10 séances ?</p>
   <button mat-button (click)="orderCard()">
     Cliquer ici
   </button>
 </ng-container>
 
-<mat-list class="slot-list">
-  <div mat-subheader>Prochains cours</div>
-  <mat-list-item *ngFor="let slot of slots$ | async">
-    <mat-icon matListItemIcon>event_available</mat-icon>
-    <div matListItemTitle>{{slot.courseDate}}</div>
-    <div matListItemLine>{{slot.courseTime}}</div>
-    <div matListItemMeta *ngIf="(canBook$ | async) && canBook(slot.id)">
-      <button mat-flat-button color="primary" (click)="bookSlot(slot.id)">Réserver</button>
+
+<ul class="yo-list">
+  <li *ngFor="let card of cards$ | async" class="yo-list-item">
+    <mat-icon>badge</mat-icon>
+    <div>
+      <span class="card-ref">{{card.id | cardId}}</span>
+      <div class="yo-sub-item">demandé le : {{card.createdTime | date}}</div>
+      <div *ngIf="card.status === 'PENDING'">Votre demande de carte est actuellement en cours...,
+        veuillez vérifier que votre paiement a été effectué et veuillez attendre quelques jours ouvrables pour réception.
+      </div>
     </div>
-  </mat-list-item>
-</mat-list>
+    <div>
+      <span [ngClass]="card.status">{{card.status}}</span>
+    </div>
+    <div>
+      Il reste {{card.capacity - getBookedSlotsCount(card.id)}} places.
+    </div>
+  </li>
+</ul>
+
+<h2>Prochains cours</h2>
+<ul class="yo-list">
+  <li *ngFor="let slot of slots$ | async" class="yo-list-item">
+    <mat-icon>event_available</mat-icon>
+    <div>
+      {{slot.courseDate | date}}
+      <div class="yo-sub-item">{{slot.courseTime}}</div>
+    </div>
+    <div>
+      <div *ngIf="getBookedSlot(slot.id) as bookedSlot; else notBookedSlot">
+        <span class="booked">Réservé</span>
+        <span class="card-ref">{{bookedSlot.card.id | cardId}}</span>
+      </div>
+      <ng-template #notBookedSlot>
+        <button mat-flat-button color="primary"
+                [disabled]="!(canBook$ | async)"
+                (click)="bookSlot(slot.id)">Réserver</button>
+      </ng-template>
+    </div>
+    <div>
+      <button mat-icon-button *ngIf="getBookedSlot(slot.id) as bookedSlot" (click)="unbookSlot(bookedSlot)">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </div>
+  </li>
+</ul>
