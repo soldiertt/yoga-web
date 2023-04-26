@@ -9,10 +9,12 @@ import {PublicState} from './state/public-state';
 import {SharedRestModule} from '../shared/shared-rest.module';
 import {SharedMaterialModule} from '../shared/shared-material.module';
 import {SharedUtilModule} from '../shared/shared-util.module';
+import {UserProfileDialog} from './components/dialogs/user-profile-dialog';
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
+    UserProfileDialog
   ],
   imports: [
     CommonModule,

@@ -10,10 +10,14 @@ import {append, patch, updateItem} from '@ngxs/store/operators';
 import {Slot} from '../../shared/model/slot';
 import {LoadPublicState} from './actions/load-public-state';
 import {SlotRestService} from '../../shared/services/slot-rest-service';
+import {UserProfile} from '../../shared/model/user-profile';
+import {SaveProfile} from './actions/save-profile';
+import {UserRestService} from '../../shared/services/user-rest-service';
 
 interface PublicStateModel {
   loading: boolean;
   userId?: string;
+  profile?: UserProfile;
   canBook: boolean;
   cards: Card[];
   slots: Slot[];
@@ -30,6 +34,13 @@ interface PublicStateModel {
 @Injectable()
 export class PublicState {
 
+  static readonly YOGA_NAMESPACE = 'https://www.yogaenpevele.fr/profile'
+
+  @Selector()
+  static profileComplete(state: PublicStateModel): boolean {
+    return !!state.profile?.firstName && !!state.profile?.lastName && !!state.profile?.phone;
+  }
+
   @Selector()
   static bookedSlots(state: PublicStateModel) {
     return state.cards
@@ -39,6 +50,7 @@ export class PublicState {
   }
 
   constructor(private auth: AuthService,
+              private userRestService: UserRestService,
               private slotRestService: SlotRestService,
               private cardRestService: CardRestService) {
   }
@@ -56,12 +68,26 @@ export class PublicState {
   authentication(ctx: StateContext<PublicStateModel>) {
     return this.auth.user$.pipe(
       tap(user => {
-        ctx.patchState({userId: user!.sub})
+        const profile = {
+          firstName: user?.[PublicState.YOGA_NAMESPACE]?.first_name,
+          lastName: user?.[PublicState.YOGA_NAMESPACE]?.last_name,
+          phone: user?.[PublicState.YOGA_NAMESPACE]?.phone
+        }
+        ctx.patchState({userId: user!.sub, profile})
       }),
       mergeMap(() => this.cardRestService.privateFindByUserId()),
       tap(cards => {
         const canBook = cards.some(c => c.status === 'ACTIVE' && c.slots.length < c.capacity);
         ctx.patchState({cards, canBook})
+      })
+    )
+  }
+
+  @Action(SaveProfile)
+  saveProfile(ctx: StateContext<PublicStateModel>, action: SaveProfile) {
+    return this.userRestService.privateUpdateProfile(action.userProfile).pipe(
+      tap(profile => {
+        ctx.patchState({profile})
       })
     )
   }

@@ -29,7 +29,8 @@ export class AdminSlotsComponent {
   }
 
   deleteDialog(id: number) : void {
-    const dialogRef = this.dialog.open(StandardConfirmDialog)
+    const dialogConfig = {data: {title: 'Supprimer une séance', htmlContent: 'Etes-vous sûr de vouloir supprimer cette séance ?'}}
+    const dialogRef = this.dialog.open(StandardConfirmDialog, dialogConfig)
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.store.dispatch(new DeleteSlot(id))

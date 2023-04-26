@@ -26,11 +26,8 @@ import {SharedUtilModule} from '../shared/shared-util.module';
   ],
   imports: [
     AdminRoutingModule,
-    CommonModule,
-    MatLuxonDateModule,
     NgOptimizedImage,
     NgxsModule.forFeature([AdminState]),
-    ReactiveFormsModule,
     SharedMaterialModule,
     SharedRestModule,
     SharedUtilModule

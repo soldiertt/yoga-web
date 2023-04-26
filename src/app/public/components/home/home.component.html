@@ -1,13 +1,18 @@
 Hi, Home component
+<button mat-button routerLink="admin">Admin</button>
 <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
   <ng-container *ngIf="auth.user$ | async as user">
+    <h2>Mon profil</h2>
     {{ user.name }} {{ user.email }}
-    <button mat-button routerLink="admin">
-      Admin
-    </button>
-    <button mat-button (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })">
-      Log out
-    </button>
+    <button mat-button (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })">Log out</button>
+    <div *ngIf="profileComplete$ | async; else incompleteProfile">
+      <div *ngIf="userProfile$ | async as profile">
+        {{profile.firstName}} {{profile.lastName}} {{profile.phone}}
+      </div>
+    </div>
+    <ng-template #incompleteProfile>
+      <p>Votre profil est incomplet, veuillez le <a href (click)="openProfileDialog($event, user)">remplir ici, merci</a></p>
+    </ng-template>
   </ng-container>
 </ng-container>
 <ng-template #loggedOut>
@@ -18,7 +23,7 @@ Hi, Home component
 <ng-container *ngIf="(cards$ | async)?.length === 0">
   <p>Vous n'avez actuellement aucune carte.</p>
   <p>Interessé par une carte 10 séances ?</p>
-  <button mat-button (click)="orderCard()">
+  <button mat-raised-button color="primary" (click)="orderCard()">
     Cliquer ici
   </button>
 </ng-container>
@@ -27,18 +32,22 @@ Hi, Home component
 <ul class="yo-list">
   <li *ngFor="let card of cards$ | async" class="yo-list-item">
     <mat-icon>badge</mat-icon>
-    <div>
-      <span class="card-ref">{{card.id | cardId}}</span>
-      <div class="yo-sub-item">demandé le : {{card.createdTime | date}}</div>
-      <div *ngIf="card.status === 'PENDING'">Votre demande de carte est actuellement en cours...,
-        veuillez vérifier que votre paiement a été effectué et veuillez attendre quelques jours ouvrables pour réception.
+    <div class="yo-list-item-main">
+      <span class="card-ref">{{card.id | cardId}}</span> <span class="card-price">{{card.price}} €</span>
+      <div class="yo-sub-item">Demandé le : {{card.createdTime | date}}</div>
+      <div class="yo-sub-item">Capacité : {{card.capacity}} séances</div>
+      <div class="yo-sub-item" *ngIf="card.status === 'ACTIVE'">
+        Séances restantes : {{card.capacity - getBookedSlotsCount(card.id)}}
       </div>
     </div>
     <div>
-      <span [ngClass]="card.status">{{card.status}}</span>
+
     </div>
     <div>
-      Il reste {{card.capacity - getBookedSlotsCount(card.id)}} places.
+      <span [ngClass]="card.status">{{card.status | cardStatus}}</span>
+    </div>
+    <div class="yo-sub-item yo-colspan-item yo-warn-item" *ngIf="card.status === 'PENDING'">Votre demande de carte est actuellement en cours,
+      veuillez vérifier que votre paiement a été effectué et veuillez attendre quelques jours ouvrables avant de voir votre carte validée.
     </div>
   </li>
 </ul>
@@ -47,7 +56,7 @@ Hi, Home component
 <ul class="yo-list">
   <li *ngFor="let slot of slots$ | async" class="yo-list-item">
     <mat-icon>event_available</mat-icon>
-    <div>
+    <div class="yo-list-item-main">
       {{slot.courseDate | date}}
       <div class="yo-sub-item">{{slot.courseTime}}</div>
     </div>
@@ -57,13 +66,19 @@ Hi, Home component
         <span class="card-ref">{{bookedSlot.card.id | cardId}}</span>
       </div>
       <ng-template #notBookedSlot>
-        <button mat-flat-button color="primary"
-                [disabled]="!(canBook$ | async)"
-                (click)="bookSlot(slot.id)">Réserver</button>
+        <span [matTooltip]="bookButtonTooltip(canBook$ | async)">
+          <button mat-flat-button color="primary"
+                  [disabled]="!(canBook$ | async)"
+                  (click)="bookSlot(slot)">
+            Réserver
+          </button>
+        </span>
       </ng-template>
     </div>
     <div>
-      <button mat-icon-button *ngIf="getBookedSlot(slot.id) as bookedSlot" (click)="unbookSlot(bookedSlot)">
+      <button mat-icon-button *ngIf="getBookedSlot(slot.id) as bookedSlot"
+              matTooltip="Annuler la réservation de cette séance"
+              (click)="unbookSlot(bookedSlot)">
         <mat-icon>cancel</mat-icon>
       </button>
     </div>

@@ -16,7 +16,7 @@ import {StandardSimpleDialog} from '../../../shared/components/standard-simple-d
 export class AdminCardsComponent {
 
   @Select(state => state.admin.cards) cards$: Observable<Card[]>
-  displayedColumns: string[] = ['user', 'status', 'createdTime', 'actions']
+  displayedColumns: string[] = ['user', 'cardId', 'price', 'status', 'createdTime', 'actions']
 
   userTooltip: Auth0User;
 
@@ -28,7 +28,8 @@ export class AdminCardsComponent {
   }
 
   deleteDialog(id: number) : void {
-    const dialogRef = this.dialog.open(StandardConfirmDialog)
+    const dialogConfig = {data: {title: 'Supprimer une carte', htmlContent: 'Etes-vous sûr de vouloir supprimer cette carte ?'}}
+    const dialogRef = this.dialog.open(StandardConfirmDialog, dialogConfig)
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.store.dispatch(new DeleteCard(id))

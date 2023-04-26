@@ -1,5 +1,5 @@
-<h1 mat-dialog-title>Etes-vous sûr ?</h1>
-<div mat-dialog-content></div>
+<h1 mat-dialog-title>{{title}}</h1>
+<div mat-dialog-content [innerHTML]="htmlContent"></div>
 <div mat-dialog-actions>
   <button mat-button (click)="close()">Annuler</button>
   <button mat-flat-button (click)="close('ok')" color="primary">Confirmer</button>
