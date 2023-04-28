@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Action, State, StateContext} from '@ngxs/store';
 import {Slot} from '../../shared/model/slot';
-import {CreateSlot, DeleteCard, DeleteSlot, LoadAdminState, ValidateCard} from './admin-actions';
+import {CreateSlot, DeleteCard, DeleteSlot, LoadAdminState, LoadSlotParticipants, ValidateCard} from './admin-actions';
 import {SlotRestService} from '../../shared/services/slot-rest-service';
 import {combineLatest, tap} from 'rxjs';
 import {append, patch, removeItem, updateItem} from "@ngxs/store/operators";
@@ -10,7 +10,8 @@ import {Card} from '../../shared/model/card';
 
 interface AdminStateModel {
   slots: Slot[],
-  cards: Card[]
+  cards: Card[],
+  slotParticipants?: Card[]
 }
 @State<AdminStateModel>({
   name: 'admin',
@@ -23,13 +24,13 @@ interface AdminStateModel {
 export class AdminState {
 
 
-  constructor(private slotRestservice: SlotRestService,
+  constructor(private slotRestService: SlotRestService,
               private cardRestService: CardRestService) {
   }
 
   @Action(LoadAdminState)
   loadAdminState(ctx: StateContext<AdminStateModel>) {
-    return combineLatest([this.slotRestservice.publicFindAll(), this.cardRestService.manageFindAll()]).pipe(
+    return combineLatest([this.slotRestService.manageFindAll(), this.cardRestService.manageFindAll()]).pipe(
       tap(([slots, cards]) => {
         ctx.patchState({
           slots, cards
@@ -40,7 +41,7 @@ export class AdminState {
 
   @Action(CreateSlot)
   createSlot(ctx: StateContext<AdminStateModel>, action: CreateSlot) {
-    return this.slotRestservice.manageCreate(action.slot).pipe(
+    return this.slotRestService.manageCreate(action.slot).pipe(
       tap(slot => {
         ctx.setState(
           patch({
@@ -53,7 +54,7 @@ export class AdminState {
 
   @Action(DeleteSlot)
   deleteSlot(ctx: StateContext<AdminStateModel>, action: DeleteSlot) {
-    return this.slotRestservice.manageDelete(action.id).pipe(
+    return this.slotRestService.manageDelete(action.id).pipe(
       tap(() => {
         ctx.setState(
           patch({
@@ -64,6 +65,14 @@ export class AdminState {
     )
   }
 
+  @Action(LoadSlotParticipants)
+  loadSlotParticipants(ctx: StateContext<AdminStateModel>, action: LoadSlotParticipants) {
+    return this.cardRestService.manageFindAllBySlot(action.id).pipe(
+      tap(cards => {
+        ctx.patchState({slotParticipants: cards})
+      })
+    )
+  }
   @Action(ValidateCard)
   validateCard(ctx: StateContext<AdminStateModel>, action: ValidateCard) {
     return this.cardRestService.manageUpdate({id: action.id, status: 'ACTIVE'}).pipe(

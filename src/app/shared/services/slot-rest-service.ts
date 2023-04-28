@@ -13,6 +13,10 @@ export class SlotRestService {
     return this.http.get<Slot[]>(`${this.BASE_URL}/public/${this.entityName()}`)
   }
 
+  manageFindAll(): Observable<Slot[]> {
+    return this.http.get<Slot[]>(`${this.BASE_URL}/manage/${this.entityName()}`)
+  }
+
   manageCreate(entity: Partial<Slot>): Observable<Slot> {
     return this.http.post<Slot>(`${this.BASE_URL}/manage/${this.entityName()}`, entity)
   }

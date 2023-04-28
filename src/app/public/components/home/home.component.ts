@@ -14,6 +14,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {SaveProfile} from '../../state/actions/save-profile';
 import {UserProfileDialog} from '../dialogs/user-profile-dialog';
 import {UserProfile} from '../../../shared/model/user-profile';
+import {ConfirmBookingDialog} from "../dialogs/confirm-booking-dialog";
 
 @Component({
   templateUrl: './home.component.html',
@@ -50,13 +51,14 @@ export class HomeComponent implements OnDestroy {
     this.destroy$.complete()
   }
 
-  openProfileDialog($event, user: User): void {
-    $event.preventDefault()
-    const dialogConfig = {data: {user}}
+  openProfileDialog(profile: UserProfile, $event?): void {
+    if ($event) {
+      $event.preventDefault()
+    }
+    const dialogConfig = {data: {profile}}
     const dialogRef = this.dialog.open(UserProfileDialog, dialogConfig)
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log(result)
         this.store.dispatch(new SaveProfile(result))
       }
     });
@@ -95,14 +97,10 @@ export class HomeComponent implements OnDestroy {
   }
 
   bookSlot(slot: Slot): void {
-    const dialogConfig = {data: {
-      title: 'Réserver une séance',
-      htmlContent: `Etes-vous sûr de vouloir réserver la séance du ${this.datePipe.transform(slot.courseDate)}, tranche horaire ${slot.courseTime} ?`
-    }}
-    const dialogRef = this.dialog.open(StandardConfirmDialog, dialogConfig)
+    const dialogRef = this.dialog.open(ConfirmBookingDialog, {data: {slot}})
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.store.dispatch(new BookSlot(slot.id))
+        this.store.dispatch(new BookSlot(slot.id, result.emailConfirmation))
       }
     });
   }

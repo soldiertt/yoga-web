@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Inject, Injectable} from '@angular/core';
 import {Card} from '../model/card';
@@ -12,6 +12,13 @@ export class CardRestService {
   manageFindAll(): Observable<Card[]> {
     return this.http.get<Card[]>(`${this.BASE_URL}/manage/${this.entityName()}`)
   }
+
+  manageFindAllBySlot(slotId: number): Observable<Card[]> {
+    let params = new HttpParams()
+    params = params.set('slotId', slotId)
+    return this.http.get<Card[]>(`${this.BASE_URL}/manage/${this.entityName()}`, {params})
+  }
+
   manageUpdate(card: Partial<Card>): Observable<Card> {
     return this.http.patch<Card>(`${this.BASE_URL}/manage/${this.entityName()}/${card.id}`, card)
   }
@@ -22,8 +29,8 @@ export class CardRestService {
     return this.http.post<Card>(`${this.BASE_URL}/private/${this.entityName()}`, {})
   }
 
-  privateBook(slotId: number): Observable<Card> {
-    return this.http.post<Card>(`${this.BASE_URL}/private/${this.entityName()}/slots`, {slotId})
+  privateBook(slotId: number, emailConfirmation: boolean): Observable<Card> {
+    return this.http.post<Card>(`${this.BASE_URL}/private/${this.entityName()}/slots`, {slotId, emailConfirmation})
   }
 
   privateDeleteSlot(cardId: number, slotId: number): Observable<Card> {

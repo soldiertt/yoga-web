@@ -1,7 +1,7 @@
 import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {Injectable} from '@angular/core';
 import {Card} from '../../shared/model/card';
-import {AuthService} from '@auth0/auth0-angular';
+import {AuthService, User} from '@auth0/auth0-angular';
 import {mergeMap, tap} from 'rxjs';
 import {Authentication} from './actions/authentication';
 import {CardRestService} from '../../shared/services/card-rest-service';
@@ -33,8 +33,6 @@ interface PublicStateModel {
 })
 @Injectable()
 export class PublicState {
-
-  static readonly YOGA_NAMESPACE = 'https://www.yogaenpevele.fr/profile'
 
   @Selector()
   static profileComplete(state: PublicStateModel): boolean {
@@ -68,12 +66,7 @@ export class PublicState {
   authentication(ctx: StateContext<PublicStateModel>) {
     return this.auth.user$.pipe(
       tap(user => {
-        const profile = {
-          firstName: user?.[PublicState.YOGA_NAMESPACE]?.first_name,
-          lastName: user?.[PublicState.YOGA_NAMESPACE]?.last_name,
-          phone: user?.[PublicState.YOGA_NAMESPACE]?.phone
-        }
-        ctx.patchState({userId: user!.sub, profile})
+        ctx.patchState({userId: user!.sub, profile: this.buildProfile(user)})
       }),
       mergeMap(() => this.cardRestService.privateFindByUserId()),
       tap(cards => {
@@ -109,7 +102,7 @@ export class PublicState {
   bookSlot(ctx: StateContext<PublicStateModel>, action: BookSlot) {
     const userId = ctx.getState().userId;
     if (userId) {
-      return this.cardRestService.privateBook(action.id).pipe(
+      return this.cardRestService.privateBook(action.id, action.emailConfirmation).pipe(
         tap(card => {
           ctx.setState(patch({cards: updateItem(c => c.id === card.id, card)}))
           const canBook = ctx.getState().cards.some(c => c.status === 'ACTIVE' && c.slots.length < c.capacity);
@@ -133,5 +126,22 @@ export class PublicState {
       )
     }
     return
+  }
+
+  private buildProfile(user: User | null | undefined): UserProfile {
+    const YOGA_NAMESPACE = 'https://www.yogaenpevele.fr/profile'
+    let firstName = user?.[YOGA_NAMESPACE]?.first_name
+    if (!firstName) {
+      firstName = user?.given_name
+    }
+    let lastName = user?.[YOGA_NAMESPACE]?.last_name
+    if (!lastName) {
+      lastName = user?.family_name
+    }
+    let phone = user?.[YOGA_NAMESPACE]?.phone
+    if (!phone) {
+      lastName = user?.phone_number
+    }
+    return {firstName, lastName, phone, email: user?.email}
   }
 }

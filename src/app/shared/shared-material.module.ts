@@ -12,19 +12,19 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatTableModule} from "@angular/material/table";
 import {MatMenuModule} from "@angular/material/menu";
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatListModule} from '@angular/material/list';
-import {MatDividerModule} from '@angular/material/divider';
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @NgModule({
   exports: [
     MatButtonModule,
+    MatCheckboxModule,
     MatDatepickerModule,
     MatDialogModule,
-    MatDividerModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatListModule,
     MatLuxonDateModule,
     MatMenuModule,
     MatSelectModule,

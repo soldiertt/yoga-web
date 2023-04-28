@@ -6,8 +6,8 @@ import {StandardConfirmDialog} from "../../../shared/components/standard-confirm
 import {Card} from '../../../shared/model/card';
 import {DeleteCard, ValidateCard} from '../../state/admin-actions';
 import {UserRestService} from '../../../shared/services/user-rest-service';
-import {Auth0User} from '../../../shared/model/auth0-user';
 import {StandardSimpleDialog} from '../../../shared/components/standard-simple-dialog';
+import {User} from '@auth0/auth0-angular';
 
 @Component({
   templateUrl: './admin-cards.component.html',
@@ -18,7 +18,7 @@ export class AdminCardsComponent {
   @Select(state => state.admin.cards) cards$: Observable<Card[]>
   displayedColumns: string[] = ['user', 'cardId', 'price', 'status', 'createdTime', 'actions']
 
-  userTooltip: Auth0User;
+  userTooltip: User;
 
   constructor(private dialog: MatDialog, private store: Store, private userRestService: UserRestService) {
   }

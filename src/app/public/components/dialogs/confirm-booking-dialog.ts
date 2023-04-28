@@ -4,29 +4,24 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {User} from '@auth0/auth0-angular';
 import {PublicState} from '../../state/public-state';
 import {UserProfile} from '../../../shared/model/user-profile';
-
-interface Hour {
-  value: string;
-  label: string;
-}
+import {Slot} from "../../../shared/model/slot";
 
 @Component({
-  templateUrl: 'user-profile-dialog.html'
+  templateUrl: 'confirm-booking-dialog.html'
 })
-export class UserProfileDialog {
+export class ConfirmBookingDialog {
 
   form: FormGroup
+  slot: Slot
 
   constructor(
-    private dialogRef: MatDialogRef<UserProfileDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: { profile: UserProfile },
+    private dialogRef: MatDialogRef<ConfirmBookingDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: { slot: Slot },
     private fb: FormBuilder
   ) {
+    this.slot = data.slot
     this.form = fb.group({
-      email: fb.control(data.profile.email, Validators.required),
-      firstName: fb.control(data.profile.firstName, Validators.required),
-      lastName: fb.control(data.profile.lastName, Validators.required),
-      phone: fb.control(data.profile.phone, Validators.required)
+      emailConfirmation: fb.control(true, Validators.required)
     })
   }
 

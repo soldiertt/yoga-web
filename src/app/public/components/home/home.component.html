@@ -1,33 +1,35 @@
 Hi, Home component
 <button mat-button routerLink="admin">Admin</button>
 <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-  <ng-container *ngIf="auth.user$ | async as user">
+  <ng-container *ngIf="userProfile$ | async as profile">
     <h2>Mon profil</h2>
-    {{ user.name }} {{ user.email }}
-    <button mat-button (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })">Log out</button>
+    <button mat-flat-button color="accent" (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })">Log out</button>
+    <div>E-mail : {{ profile.email }}</div>
     <div *ngIf="profileComplete$ | async; else incompleteProfile">
-      <div *ngIf="userProfile$ | async as profile">
-        {{profile.firstName}} {{profile.lastName}} {{profile.phone}}
+      <div>
+        <div>Prénom: {{profile.firstName}}</div>
+        <div>Nom: {{profile.lastName}}</div>
+        <div>Téléphone: {{profile.phone}}</div>
       </div>
+      <button mat-raised-button (click)="openProfileDialog(profile)">Modifier mon profil</button>
+
+      <h2>Mes cartes</h2>
+      <ng-container *ngIf="(cards$ | async)?.length === 0">
+        <p>Vous n'avez actuellement aucune carte.</p>
+        <p>Interessé par une carte 10 séances ?</p>
+        <button mat-raised-button color="primary" (click)="orderCard()">
+          Cliquer ici
+        </button>
+      </ng-container>
     </div>
     <ng-template #incompleteProfile>
-      <p>Votre profil est incomplet, veuillez le <a href (click)="openProfileDialog($event, user)">remplir ici, merci</a></p>
+      <p>Votre profil est incomplet, veuillez le <a href (click)="openProfileDialog(profile, $event)">remplir ici, merci</a></p>
     </ng-template>
   </ng-container>
 </ng-container>
 <ng-template #loggedOut>
   <button mat-button (click)="auth.loginWithRedirect()">Log in</button>
 </ng-template>
-
-<h2>Mes cartes</h2>
-<ng-container *ngIf="(cards$ | async)?.length === 0">
-  <p>Vous n'avez actuellement aucune carte.</p>
-  <p>Interessé par une carte 10 séances ?</p>
-  <button mat-raised-button color="primary" (click)="orderCard()">
-    Cliquer ici
-  </button>
-</ng-container>
-
 
 <ul class="yo-list">
   <li *ngFor="let card of cards$ | async" class="yo-list-item">

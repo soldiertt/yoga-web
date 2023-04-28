@@ -10,9 +10,11 @@ import {SharedRestModule} from '../shared/shared-rest.module';
 import {SharedMaterialModule} from '../shared/shared-material.module';
 import {SharedUtilModule} from '../shared/shared-util.module';
 import {UserProfileDialog} from './components/dialogs/user-profile-dialog';
+import {ConfirmBookingDialog} from "./components/dialogs/confirm-booking-dialog";
 
 @NgModule({
   declarations: [
+    ConfirmBookingDialog,
     HomeComponent,
     UserProfileDialog
   ],

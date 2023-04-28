@@ -4,7 +4,7 @@ export class CreateCard {
 
 export class BookSlot {
   static readonly type = '[Public] Book slot';
-  constructor(public id: number) {}
+  constructor(public id: number, public emailConfirmation: boolean) {}
 }
 
 export class UnbookSlot {
