@@ -1,4 +1,5 @@
 import {Slot} from './slot';
+import {UserProfile} from './user-profile';
 
 export interface Card {
   id: number;
@@ -7,6 +8,7 @@ export interface Card {
   status: 'PENDING' | 'ACTIVE' | 'DELETED';
   capacity: number;
   slots: Slot[];
+  owner?: UserProfile;
   createdTime: string;
   updatedTime: string;
 }

@@ -1,15 +1,14 @@
 import {Component, Inject, OnDestroy} from '@angular/core';
-import {AuthService, User} from "@auth0/auth0-angular";
+import {AuthService} from "@auth0/auth0-angular";
 import {DatePipe, DOCUMENT} from "@angular/common";
 import {Select, Store} from '@ngxs/store';
-import {Observable, combineLatest, takeUntil, Subject} from 'rxjs';
+import {Observable, takeUntil, Subject} from 'rxjs';
 import {Card} from '../../../shared/model/card';
 import {BookSlot, CreateCard, UnbookSlot} from '../../state/actions/card-actions';
 import {Slot} from '../../../shared/model/slot';
 import {LoadPublicState} from '../../state/actions/load-public-state';
 import {PublicState} from '../../state/public-state';
 import {StandardConfirmDialog} from '../../../shared/components/standard-confirm-dialog';
-import {DeleteCard} from '../../../admin/state/admin-actions';
 import {MatDialog} from '@angular/material/dialog';
 import {SaveProfile} from '../../state/actions/save-profile';
 import {UserProfileDialog} from '../dialogs/user-profile-dialog';
@@ -115,11 +114,12 @@ export class HomeComponent implements OnDestroy {
       if (result) {
         this.store.dispatch(new UnbookSlot(card.id, slot.id))
       }
-    });
+    })
   }
 
   bookButtonTooltip(canBook: boolean | null) {
     return canBook ? 'Réserver cette séance' :
       'Vous ne pouvez pas réserver à ce stade, vérifier que vous êtes connecté et que vous disposez d\'une carte active'
   }
+
 }

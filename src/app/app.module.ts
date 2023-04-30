@@ -9,15 +9,18 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AuthHttpInterceptor} from "./auth-interceptor";
 import {registerLocaleData} from '@angular/common';
 import localeFr from '@angular/common/locales/fr'
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {LoadingInterceptor} from "./loading/loading-interceptor";
+import {LoadingComponent} from "./loading/loading.component";
 
 registerLocaleData(localeFr, 'fr')
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LoadingComponent
   ],
   imports: [
-
     HttpClientModule,
     BrowserAnimationsModule,
     BrowserModule,
@@ -40,10 +43,12 @@ registerLocaleData(localeFr, 'fr')
         }
       }
     ),
+    MatProgressSpinnerModule,
     NgxsModule.forRoot([], {developmentMode: true})
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
     { provide: LOCALE_ID, useValue: 'fr'}
   ],
   bootstrap: [AppComponent]

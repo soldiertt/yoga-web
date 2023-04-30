@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
   <span routerLink="/admin">Yoga Admin</span>
-  <button mat-stroked-button routerLink="slots">Planning</button>
-  <button mat-stroked-button routerLink="cards">Cartes</button>
+  <button mat-stroked-button routerLink="slots" routerLinkActive="active">Planning</button>
+  <button mat-stroked-button routerLink="cards" routerLinkActive="active">Cartes</button>
   <span class="expand"></span>
 
   <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">

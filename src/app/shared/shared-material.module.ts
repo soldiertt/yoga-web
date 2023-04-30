@@ -14,6 +14,7 @@ import {MatMenuModule} from "@angular/material/menu";
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatExpansionModule} from "@angular/material/expansion";
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   exports: [
@@ -25,6 +26,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatListModule,
     MatLuxonDateModule,
     MatMenuModule,
     MatSelectModule,

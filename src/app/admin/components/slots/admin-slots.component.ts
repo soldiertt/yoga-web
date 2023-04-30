@@ -16,7 +16,7 @@ import {Card} from "../../../shared/model/card";
 export class AdminSlotsComponent {
 
   @Select(state => state.admin.slots) slots$: Observable<Slot[]>
-  @Select(state => state.admin.slotParticipants) slotPartcipants$: Observable<Card[]>
+  @Select(state => state.admin.slotParticipants) slotParticipants$: Observable<Card[]>
 
   constructor(private dialog: MatDialog, private store: Store) {
   }

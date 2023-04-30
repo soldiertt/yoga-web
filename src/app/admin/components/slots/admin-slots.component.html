@@ -21,11 +21,17 @@
           </div>
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <ul *ngIf="slot.participantsCount! > 0; else noParticipant">
-        <li *ngFor="let participant of slotPartcipants$ | async">
-          {{participant.id | cardId}}
-        </li>
-      </ul>
+      <mat-list *ngIf="slot.participantsCount! > 0; else noParticipant" class="participant-list">
+        <mat-list-item *ngFor="let participant of slotParticipants$ | async">
+          <mat-icon matListItemIcon>person</mat-icon>
+          <div matListItemTitle>{{participant.owner?.firstName}} {{participant.owner?.lastName}}</div>
+          <div matListItemLine>
+            <span>Tél. : {{participant.owner?.phone}}</span>
+            <span>Email : {{ participant.owner?.email}}</span>
+            <span class="card-ref">{{participant.id | cardId}}</span>
+          </div>
+        </mat-list-item>
+      </mat-list>
       <ng-template #noParticipant>
         <i>Aucun participant pour le moment</i>
       </ng-template>

@@ -8,6 +8,11 @@ import {AdminCardsComponent} from './components/cards/admin-cards.component';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: '/admin/slots',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
     component: AdminRootComponent,
     canActivate: [adminGuard],
     children: [
