@@ -1,4 +1,4 @@
-import {UserProfile} from '../../../shared/model/user-profile';
+import {UserProfile} from '../../../root/model/user-profile';
 
 export class SaveProfile {
   static readonly type = '[Public] Save profile';

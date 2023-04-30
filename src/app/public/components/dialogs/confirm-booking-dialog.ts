@@ -3,8 +3,8 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {User} from '@auth0/auth0-angular';
 import {PublicState} from '../../state/public-state';
-import {UserProfile} from '../../../shared/model/user-profile';
-import {Slot} from "../../../shared/model/slot";
+import {UserProfile} from '../../../root/model/user-profile';
+import {Slot} from "../../../root/model/slot";
 
 @Component({
   templateUrl: 'confirm-booking-dialog.html'

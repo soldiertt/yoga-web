@@ -3,9 +3,9 @@ import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
 import {MatDialog} from "@angular/material/dialog";
 import {StandardConfirmDialog} from "../../../shared/components/standard-confirm-dialog";
-import {Card} from '../../../shared/model/card';
+import {Card} from '../../../root/model/card';
 import {DeleteCard, ValidateCard} from '../../state/admin-actions';
-import {UserRestService} from '../../../shared/services/user-rest-service';
+import {UserRestService} from '../../../core/services/user-rest-service';
 import {StandardSimpleDialog} from '../../../shared/components/standard-simple-dialog';
 import {User} from '@auth0/auth0-angular';
 

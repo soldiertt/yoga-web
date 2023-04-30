@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from "@angular/core";
-import {Slot} from "../../../shared/model/slot";
+import {Slot} from "../../../root/model/slot";
 
 @Pipe({
   name: "sortSlots",

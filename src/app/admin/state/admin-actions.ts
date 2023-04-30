@@ -1,4 +1,4 @@
-import {Slot} from "../../shared/model/slot";
+import {Slot} from "../../root/model/slot";
 
 export class LoadAdminState {
   static readonly type = '[Admin] Load admin state';

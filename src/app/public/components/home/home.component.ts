@@ -3,16 +3,16 @@ import {AuthService} from "@auth0/auth0-angular";
 import {DatePipe, DOCUMENT} from "@angular/common";
 import {Select, Store} from '@ngxs/store';
 import {Observable, takeUntil, Subject} from 'rxjs';
-import {Card} from '../../../shared/model/card';
+import {Card} from '../../../root/model/card';
 import {BookSlot, CreateCard, UnbookSlot} from '../../state/actions/card-actions';
-import {Slot} from '../../../shared/model/slot';
+import {Slot} from '../../../root/model/slot';
 import {LoadPublicState} from '../../state/actions/load-public-state';
 import {PublicState} from '../../state/public-state';
 import {StandardConfirmDialog} from '../../../shared/components/standard-confirm-dialog';
 import {MatDialog} from '@angular/material/dialog';
 import {SaveProfile} from '../../state/actions/save-profile';
 import {UserProfileDialog} from '../dialogs/user-profile-dialog';
-import {UserProfile} from '../../../shared/model/user-profile';
+import {UserProfile} from '../../../root/model/user-profile';
 import {ConfirmBookingDialog} from "../dialogs/confirm-booking-dialog";
 
 @Component({

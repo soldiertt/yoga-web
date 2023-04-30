@@ -1,7 +1,7 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Inject, Injectable} from '@angular/core';
-import {Card} from '../model/card';
+import {Card} from '../../root/model/card';
 
 @Injectable()
 export class CardRestService {

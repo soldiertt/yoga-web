@@ -1,18 +1,18 @@
 import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {Injectable} from '@angular/core';
-import {Card} from '../../shared/model/card';
+import {Card} from '../../root/model/card';
 import {AuthService, User} from '@auth0/auth0-angular';
 import {mergeMap, tap} from 'rxjs';
 import {Authentication} from './actions/authentication';
-import {CardRestService} from '../../shared/services/card-rest-service';
+import {CardRestService} from '../../core/services/card-rest-service';
 import {BookSlot, CreateCard, UnbookSlot} from './actions/card-actions';
 import {append, patch, updateItem} from '@ngxs/store/operators';
-import {Slot} from '../../shared/model/slot';
+import {Slot} from '../../root/model/slot';
 import {LoadPublicState} from './actions/load-public-state';
-import {SlotRestService} from '../../shared/services/slot-rest-service';
-import {UserProfile} from '../../shared/model/user-profile';
+import {SlotRestService} from '../../core/services/slot-rest-service';
+import {UserProfile} from '../../root/model/user-profile';
 import {SaveProfile} from './actions/save-profile';
-import {UserRestService} from '../../shared/services/user-rest-service';
+import {UserRestService} from '../../core/services/user-rest-service';
 
 interface PublicStateModel {
   loading: boolean;

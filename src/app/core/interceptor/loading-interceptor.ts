@@ -5,7 +5,7 @@ import {
   HttpEvent,
   HttpInterceptor,
 } from '@angular/common/http';
-import {LoadingService} from './loading-service';
+import {LoadingService} from '../services/loading-service';
 import {finalize, Observable} from 'rxjs';
 
 

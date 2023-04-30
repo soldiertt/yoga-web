@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
 import {Observable} from 'rxjs';
-import {Slot} from '../../../shared/model/slot';
+import {Slot} from '../../../root/model/slot';
 import {MatDialog} from "@angular/material/dialog";
 import {CreateSlotDialog} from "../dialogs/create-slot-dialog";
 import {CreateSlot, DeleteSlot, LoadSlotParticipants} from "../../state/admin-actions";
 import {StandardConfirmDialog} from "../../../shared/components/standard-confirm-dialog";
-import {CardRestService} from "../../../shared/services/card-rest-service";
-import {Card} from "../../../shared/model/card";
+import {CardRestService} from "../../../core/services/card-rest-service";
+import {Card} from "../../../root/model/card";
 
 @Component({
   templateUrl: './admin-slots.component.html',

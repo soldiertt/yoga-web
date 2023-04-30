@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Action, State, StateContext} from '@ngxs/store';
-import {Slot} from '../../shared/model/slot';
+import {Slot} from '../../root/model/slot';
 import {CreateSlot, DeleteCard, DeleteSlot, LoadAdminState, LoadSlotParticipants, ValidateCard} from './admin-actions';
-import {SlotRestService} from '../../shared/services/slot-rest-service';
+import {SlotRestService} from '../../core/services/slot-rest-service';
 import {combineLatest, tap} from 'rxjs';
 import {append, patch, removeItem, updateItem} from "@ngxs/store/operators";
-import {CardRestService} from '../../shared/services/card-rest-service';
-import {Card} from '../../shared/model/card';
+import {CardRestService} from '../../core/services/card-rest-service';
+import {Card} from '../../root/model/card';
 
 interface AdminStateModel {
   slots: Slot[],

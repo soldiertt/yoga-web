@@ -6,8 +6,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
-import {MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
-import {MAT_LUXON_DATE_FORMATS, MatLuxonDateModule} from "@angular/material-luxon-adapter";
+import {MatLuxonDateModule} from "@angular/material-luxon-adapter";
 import {MatSelectModule} from "@angular/material/select";
 import {MatTableModule} from "@angular/material/table";
 import {MatMenuModule} from "@angular/material/menu";
@@ -33,10 +32,6 @@ import {MatListModule} from '@angular/material/list';
     MatTableModule,
     MatToolbarModule,
     MatTooltipModule
-  ],
-  providers: [
-    {provide: MAT_DATE_FORMATS, useValue: MAT_LUXON_DATE_FORMATS},
-    {provide: MAT_DATE_LOCALE, useValue: 'fr-FR'}
   ]
 })
 export class SharedMaterialModule {}

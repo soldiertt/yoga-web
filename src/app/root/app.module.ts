@@ -5,13 +5,11 @@ import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgxsModule} from '@ngxs/store';
 import {AuthModule} from "@auth0/auth0-angular";
-import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {AuthHttpInterceptor} from "./auth-interceptor";
 import {registerLocaleData} from '@angular/common';
 import localeFr from '@angular/common/locales/fr'
+import {CoreModule} from "../core/core.module";
+import {LoadingComponent} from "./components/loading/loading.component";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {LoadingInterceptor} from "./loading/loading-interceptor";
-import {LoadingComponent} from "./loading/loading.component";
 
 registerLocaleData(localeFr, 'fr')
 
@@ -21,9 +19,6 @@ registerLocaleData(localeFr, 'fr')
     LoadingComponent
   ],
   imports: [
-    HttpClientModule,
-    BrowserAnimationsModule,
-    BrowserModule,
     AppRoutingModule,
     AuthModule.forRoot(
       {
@@ -43,12 +38,13 @@ registerLocaleData(localeFr, 'fr')
         }
       }
     ),
+    BrowserAnimationsModule,
+    BrowserModule,
+    CoreModule,
     MatProgressSpinnerModule,
     NgxsModule.forRoot([], {developmentMode: true})
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
     { provide: LOCALE_ID, useValue: 'fr'}
   ],
   bootstrap: [AppComponent]

@@ -1,6 +1,6 @@
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Slot} from '../model/slot';
+import {Slot} from '../../root/model/slot';
 import {Inject, Injectable} from '@angular/core';
 
 @Injectable()
