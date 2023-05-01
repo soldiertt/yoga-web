@@ -23,15 +23,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   @Select(state => state.public.user) yogaUser$: Observable<YogaUser>
   @Select(PublicState.bookedSlots) bookedSlots$: Observable<{ card: Card, slot: Slot }[]>
-  @Select(PublicState.profileComplete) profileComplete$: Observable<boolean>
-  @Select(PublicState.singleCardIsFull) singleCardIsFull$: Observable<boolean>
 
   bookedSlots: { card: Card, slot: Slot }[]
   private readonly destroy$ = new Subject<void>();
 
-  constructor(@Inject(DOCUMENT) public document: Document,
-              private dialog: MatDialog,
-              private store: Store,
+  constructor(private store: Store,
               public auth: AuthService) {
     this.store.dispatch(new LoadPublicState())
     this.bookedSlots$.pipe(takeUntil(this.destroy$))
@@ -53,45 +49,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next()
     this.destroy$.complete()
-  }
-
-  openProfileDialog(user: YogaUser, $event?): void {
-    if ($event) {
-      $event.preventDefault()
-    }
-    const dialogConfig = {data: {user}}
-    const dialogRef = this.dialog.open(UserProfileDialog, dialogConfig)
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.store.dispatch(new SaveProfile(result))
-      }
-    });
-  }
-
-  orderCard(): void {
-    const dialogConfig = {
-      data: {
-        title: 'Commander une carte',
-        htmlContent: `<p>Vous êtes sur le point de commander une nouvelle carte pour 10 séances de Yoga.</p>
-                <p>Prix: 120€</p>
-                <p>Après avoir commandé cette carte, veuillez payer le montant à l'aide d'un virement bancaire
-                avec les références suivantes:</p>
-                <p>
-                    Nom: Yoga En Pévèle<br/>
-                    N° de compte : FR4545 4545 4512 2585<br/>
-                    Communication: Votre nom + prénom
-                </p>
-                <p>Votre demande sera traitée dès que possible, après réception du paiement (compter 3 jours ouvrables),
-                vous serez alors en mesure de faire vos réservations de séances en ligne.</p>
-                `
-      }
-    }
-    const dialogRef = this.dialog.open(StandardConfirmDialog, dialogConfig)
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.store.dispatch(new CreateCard())
-      }
-    });
   }
 
 }

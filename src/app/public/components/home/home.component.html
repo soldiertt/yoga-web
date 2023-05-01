@@ -1,46 +1,10 @@
 Hi, Home component
-<ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-  <ng-container *ngIf="yogaUser$ | async as user">
-    <button mat-button routerLink="admin" *ngIf="user.isAdmin">Admin</button>
-    <h2>Mon profil</h2>
-    <button mat-flat-button color="accent"
-            (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })">Log out
-    </button>
-    <div>E-mail : {{ user.email }}</div>
-    <div *ngIf="profileComplete$ | async; else incompleteProfile">
-      <div>
-        <div>Prénom: {{user.firstName}}</div>
-        <div>Nom: {{user.lastName}}</div>
-        <div>Téléphone: {{user.phone}}</div>
-      </div>
-      <button mat-raised-button (click)="openProfileDialog(user)">Modifier mon profil</button>
-
-      <h2>Mes cartes</h2>
-      <ng-container *ngIf="(yogaUser$ | async)?.cards?.length === 0">
-        <p>Vous n'avez actuellement aucune carte.</p>
-        <p>Interessé par une carte 10 séances ?</p>
-        <button mat-raised-button color="primary" (click)="orderCard()">
-          Cliquer ici
-        </button>
-      </ng-container>
-      <ng-container>
-        <div class="yo-sub-item yo-colspan-item" *ngIf="singleCardIsFull$ | async">
-          <p>Interessé par une deuxième carte 10 séances ?</p>
-          <button mat-raised-button color="primary" (click)="orderCard()">
-            Cliquer ici
-          </button>
-        </div>
-      </ng-container>
-    </div>
-    <ng-template #incompleteProfile>
-      <p>Votre profil est incomplet, veuillez le <a href (click)="openProfileDialog(user, $event)">remplir ici,
-        merci</a></p>
-    </ng-template>
-    <yog-my-carts [cards]="user.cards" [bookedSlots]="bookedSlots"></yog-my-carts>
-  </ng-container>
+<ng-container *ngIf="yogaUser$ | async as user; else loggedOut">
+  <button mat-button routerLink="admin" *ngIf="user.isAdmin">Admin</button>
+  <yog-my-profile [user]="user" [bookedSlots]="bookedSlots"></yog-my-profile>
 </ng-container>
 <ng-template #loggedOut>
-  <button mat-button (click)="auth.loginWithRedirect()">Log in</button>
+  <button mat-button (click)="auth.loginWithRedirect()">Se connecter</button>
 </ng-template>
 
 <yog-slot-booking [bookedSlots]="bookedSlots"></yog-slot-booking>

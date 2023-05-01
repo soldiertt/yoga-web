@@ -1,0 +1,19 @@
+<h2>Mon profil</h2>
+<button mat-flat-button color="accent"
+        (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })">
+  Se déconnecter
+</button>
+<div>E-mail : {{ user.email }}</div>
+<div *ngIf="profileComplete$ | async; else incompleteProfile">
+  <div>
+    <div>Prénom: {{user.firstName}}</div>
+    <div>Nom: {{user.lastName}}</div>
+    <div>Téléphone: {{user.phone}}</div>
+  </div>
+  <button mat-raised-button (click)="openProfileDialog(user)">Modifier mon profil</button>
+  <yog-my-cards [cards]="user.cards" [bookedSlots]="bookedSlots"></yog-my-cards>
+</div>
+<ng-template #incompleteProfile>
+  <p>Votre profil est incomplet, veuillez le <a href (click)="openProfileDialog(user, $event)">remplir ici,
+    merci</a></p>
+</ng-template>

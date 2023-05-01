@@ -1,3 +1,13 @@
+<h2>Mes cartes</h2>
+<div *ngIf="cards?.length === 0">
+  <p>Vous n'avez actuellement aucune carte.</p>
+  <p>Interessé par une carte 10 séances ?</p>
+  <button mat-raised-button color="primary" (click)="orderCard()">Commander une carte</button>
+</div>
+<div *ngIf="singleCardIsFull$ | async">
+  <p>Interessé par une nouvelle carte 10 séances ?</p>
+  <button mat-raised-button color="primary" (click)="orderCard()">Commander une carte</button>
+</div>
 <ul class="yo-list">
   <li *ngFor="let card of cards" class="yo-list-item">
     <mat-icon>badge</mat-icon>

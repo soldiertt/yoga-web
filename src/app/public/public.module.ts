@@ -11,12 +11,14 @@ import {UserProfileDialog} from './components/dialogs/user-profile-dialog';
 import {ConfirmBookingDialog} from "./components/dialogs/confirm-booking-dialog";
 import {SlotBookingComponent} from "./components/slot-booking/slot-booking.component";
 import {MyCardsComponent} from './components/my-cards/my-cards.component';
+import {MyProfileComponent} from './components/my-profile/my-profile.component';
 
 @NgModule({
   declarations: [
     ConfirmBookingDialog,
     HomeComponent,
     MyCardsComponent,
+    MyProfileComponent,
     SlotBookingComponent,
     UserProfileDialog
   ],
