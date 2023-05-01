@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {HomeComponent} from './components/home/home.component';
 import {PublicRoutingModule} from './public-routing.module';
-import {CommonModule} from '@angular/common';
 import {MatButtonModule} from "@angular/material/button";
 import {MatMenuModule} from "@angular/material/menu";
 import {NgxsModule} from '@ngxs/store';
@@ -10,11 +9,13 @@ import {SharedMaterialModule} from '../shared/shared-material.module';
 import {SharedUtilModule} from '../shared/shared-util.module';
 import {UserProfileDialog} from './components/dialogs/user-profile-dialog';
 import {ConfirmBookingDialog} from "./components/dialogs/confirm-booking-dialog";
+import {SlotBookingComponent} from "./components/slot-booking/slot-booking.component";
 
 @NgModule({
   declarations: [
     ConfirmBookingDialog,
     HomeComponent,
+    SlotBookingComponent,
     UserProfileDialog
   ],
   imports: [

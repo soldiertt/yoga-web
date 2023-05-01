@@ -1,8 +1,7 @@
 import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {Injectable} from '@angular/core';
-import {Card} from '../../root/model/card';
-import {AuthService, User} from '@auth0/auth0-angular';
-import {mergeMap, tap} from 'rxjs';
+import {AuthService} from '@auth0/auth0-angular';
+import {tap} from 'rxjs';
 import {Authentication} from './actions/authentication';
 import {CardRestService} from '../../core/services/card-rest-service';
 import {BookSlot, CreateCard, UnbookSlot} from './actions/card-actions';
@@ -10,25 +9,18 @@ import {append, patch, updateItem} from '@ngxs/store/operators';
 import {Slot} from '../../root/model/slot';
 import {LoadPublicState} from './actions/load-public-state';
 import {SlotRestService} from '../../core/services/slot-rest-service';
-import {UserProfile} from '../../root/model/user-profile';
 import {SaveProfile} from './actions/save-profile';
 import {UserRestService} from '../../core/services/user-rest-service';
+import {YogaUser} from "../../root/model/yoga-user";
 
 interface PublicStateModel {
-  loading: boolean;
-  userId?: string;
-  profile?: UserProfile;
-  canBook: boolean;
-  cards: Card[];
-  slots: Slot[];
+  user?: YogaUser;
+  publicSlots: Slot[];
 }
 @State<PublicStateModel>({
   name: 'public',
   defaults: {
-    loading: true,
-    canBook: false,
-    cards: [],
-    slots: []
+    publicSlots: []
   }
 })
 @Injectable()
@@ -36,15 +28,27 @@ export class PublicState {
 
   @Selector()
   static profileComplete(state: PublicStateModel): boolean {
-    return !!state.profile?.firstName && !!state.profile?.lastName && !!state.profile?.phone;
+    return !!state.user?.firstName && !!state.user?.lastName && !!state.user?.phone;
+  }
+
+  @Selector()
+  static singleCardIsFull(state: PublicStateModel): boolean {
+    const pendingCardsCount = state.user?.cards?.filter(card => card.status === 'PENDING').length
+    const activeCardsCount = state.user?.cards?.filter(card => card.status === 'ACTIVE').length
+    return pendingCardsCount === 0 && activeCardsCount === 1 && !!state.user?.cards?.some(card => card.status === 'ACTIVE' && card.capacity <= card.slots.length)
   }
 
   @Selector()
   static bookedSlots(state: PublicStateModel) {
-    return state.cards
+    return state.user?.cards?.filter(c => c.slots)
       .flatMap(c =>
         c.slots.map(s => ({card: c, slot: s}))
       );
+  }
+
+  @Selector()
+  static canBook(state: PublicStateModel) {
+    return state.user?.cards?.some(c => c.status === 'ACTIVE' && c.slots.length < c.capacity);
   }
 
   constructor(private auth: AuthService,
@@ -56,42 +60,37 @@ export class PublicState {
   @Action(LoadPublicState)
   loadPublicState(ctx: StateContext<PublicStateModel>) {
     return this.slotRestService.publicFindAll().pipe(
-      tap(slots => {
-        ctx.patchState({slots})
+      tap(publicSlots => {
+        ctx.patchState({publicSlots})
       })
     )
   }
 
   @Action(Authentication)
   authentication(ctx: StateContext<PublicStateModel>) {
-    return this.auth.user$.pipe(
+    return this.userRestService.privateAuthentify().pipe(
       tap(user => {
-        ctx.patchState({userId: user!.sub, profile: this.buildProfile(user)})
-      }),
-      mergeMap(() => this.cardRestService.privateFindByUserId()),
-      tap(cards => {
-        const canBook = cards.some(c => c.status === 'ACTIVE' && c.slots.length < c.capacity);
-        ctx.patchState({cards, canBook})
+        ctx.patchState({user})
       })
     )
   }
 
   @Action(SaveProfile)
   saveProfile(ctx: StateContext<PublicStateModel>, action: SaveProfile) {
-    return this.userRestService.privateUpdateProfile(action.userProfile).pipe(
+    return this.userRestService.privateUpdateProfile(action.user).pipe(
       tap(profile => {
-        ctx.patchState({profile})
+        ctx.setState(patch({user: patch({...action.user})}))
       })
     )
   }
 
   @Action(CreateCard)
   createCardRequest(ctx: StateContext<PublicStateModel>) {
-    const userId = ctx.getState().userId;
+    const userId = ctx.getState().user?.userId;
     if (userId) {
       return this.cardRestService.privateCreate().pipe(
         tap(card => {
-          ctx.setState(patch({cards: append([card])}))
+          ctx.setState(patch({user: patch({cards: append([card])})}))
         })
       )
     }
@@ -100,13 +99,17 @@ export class PublicState {
 
   @Action(BookSlot)
   bookSlot(ctx: StateContext<PublicStateModel>, action: BookSlot) {
-    const userId = ctx.getState().userId;
+    const userId = ctx.getState().user?.userId;
     if (userId) {
       return this.cardRestService.privateBook(action.id, action.emailConfirmation).pipe(
         tap(card => {
-          ctx.setState(patch({cards: updateItem(c => c.id === card.id, card)}))
-          const canBook = ctx.getState().cards.some(c => c.status === 'ACTIVE' && c.slots.length < c.capacity);
-          ctx.patchState({canBook})
+          ctx.setState(
+            patch({user:
+                patch({cards:
+                    updateItem(c => c.id === card.id, card)
+                })
+            })
+          )
         })
       )
     }
@@ -115,33 +118,21 @@ export class PublicState {
 
   @Action(UnbookSlot)
   unbookSlot(ctx: StateContext<PublicStateModel>, action: UnbookSlot) {
-    const userId = ctx.getState().userId;
+    const userId = ctx.getState().user?.userId;
     if (userId) {
       return this.cardRestService.privateDeleteSlot(action.cardId, action.slotId).pipe(
         tap(card => {
-          ctx.setState(patch({cards: updateItem(c => c.id === card.id, card)}))
-          const canBook = ctx.getState().cards.some(c => c.status === 'ACTIVE' && c.slots.length < c.capacity);
-          ctx.patchState({canBook})
+          ctx.setState(
+            patch({user:
+                patch({cards:
+                    updateItem(c => c.id === card.id, card)
+                })
+            })
+          )
         })
       )
     }
     return
   }
 
-  private buildProfile(user: User | null | undefined): UserProfile {
-    const YOGA_NAMESPACE = 'https://www.yogaenpevele.fr/profile'
-    let firstName = user?.[YOGA_NAMESPACE]?.first_name
-    if (!firstName) {
-      firstName = user?.given_name
-    }
-    let lastName = user?.[YOGA_NAMESPACE]?.last_name
-    if (!lastName) {
-      lastName = user?.family_name
-    }
-    let phone = user?.[YOGA_NAMESPACE]?.phone
-    if (!phone) {
-      lastName = user?.phone_number
-    }
-    return {firstName, lastName, phone, email: user?.email}
-  }
 }

@@ -8,7 +8,7 @@ import {SharedMaterialModule} from '../shared/shared-material.module';
 import {NgxsModule} from '@ngxs/store';
 import {AdminState} from './state/admin-state';
 import {CreateSlotDialog} from "./components/dialogs/create-slot-dialog";
-import {SortSlotsPipe} from "./components/pipes/sort-slots-pipe";
+import {FilterSlotsPipe} from "./components/pipes/filter-slots-pipe";
 import {AdminCardsComponent} from './components/cards/admin-cards.component';
 import {SharedUtilModule} from '../shared/shared-util.module';
 
@@ -19,7 +19,7 @@ import {SharedUtilModule} from '../shared/shared-util.module';
     AdminHeaderComponent,
     AdminSlotsComponent,
     CreateSlotDialog,
-    SortSlotsPipe
+    FilterSlotsPipe
   ],
   imports: [
     AdminRoutingModule,

@@ -8,11 +8,64 @@ main {
   padding: 20px;
 }
 
-.expand {
+.ACTIVE {
+  padding: 0 5px;
+  color: white;
+  background-color: green;
+}
+.PENDING {
+  padding: 0 5px;
+  color: white;
+  background-color: orange;
+}
+.EXPIRED {
+  padding: 0 5px;
+  color: white;
+  background-color: lightslategrey;
+}
+
+.yo-list {
+  list-style: none;
+  max-width: 600px;
+  padding-left: 20px;
+  .yo-list-item {
+    display: grid;
+    grid-template-columns: 50px auto 200px 100px;
+    border-bottom: 1px solid lightgrey;
+    margin-bottom: 10px;
+    .yo-list-item-main {
+      font-size: 1.2em;
+    }
+    .yo-sub-item{
+      font-size: 0.9em;
+    }
+    .yo-colspan-item {
+      grid-column-start: 2;
+      grid-column-end: 5;
+    }
+    .mdc-icon-button {
+      border: 0;
+      padding: 0;
+      height: fit-content;
+      width: fit-content;
+    }
+  }
+}
+
+.yo-warn-item {
+  color: red;
+  font-style: italic;
+}
+.yo-success-item {
+  color: green;
+}
+
+
+.yo-expand {
   flex: 1 1 auto;
 }
 
-.form-display {
+.yo-form-container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -20,14 +73,14 @@ main {
     margin-top: 20px;
   }
 }
-.user-picture {
+.yo-user-picture {
   border-radius: 50px;
 }
 .mat-mdc-menu-item.small-menu-item .mdc-list-item__primary-text {
   font-size: 0.7em;
 }
 
-.card-ref {
+.yo-card-ref {
   background-color: orange;
   color: white;
   padding: 0 5px;

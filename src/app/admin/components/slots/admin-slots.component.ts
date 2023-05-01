@@ -4,10 +4,9 @@ import {Observable} from 'rxjs';
 import {Slot} from '../../../root/model/slot';
 import {MatDialog} from "@angular/material/dialog";
 import {CreateSlotDialog} from "../dialogs/create-slot-dialog";
-import {CreateSlot, DeleteSlot, LoadSlotParticipants} from "../../state/admin-actions";
+import {CreateSlot, DeleteSlot} from "../../state/admin-actions";
 import {StandardConfirmDialog} from "../../../shared/components/standard-confirm-dialog";
-import {CardRestService} from "../../../core/services/card-rest-service";
-import {Card} from "../../../root/model/card";
+import {DateTime} from 'luxon';
 
 @Component({
   templateUrl: './admin-slots.component.html',
@@ -16,7 +15,6 @@ import {Card} from "../../../root/model/card";
 export class AdminSlotsComponent {
 
   @Select(state => state.admin.slots) slots$: Observable<Slot[]>
-  @Select(state => state.admin.slotParticipants) slotParticipants$: Observable<Card[]>
 
   constructor(private dialog: MatDialog, private store: Store) {
   }
@@ -31,8 +29,8 @@ export class AdminSlotsComponent {
     });
   }
 
-  loadParticipants(slotId: number) {
-    this.store.dispatch(new LoadSlotParticipants(slotId))
+  isFuture(slot: Slot): boolean {
+    return DateTime.fromFormat(slot.courseDate, 'yyyy-MM-dd') >= DateTime.now()
   }
 
   deleteDialog(id: number, $event?) : void {

@@ -2,12 +2,12 @@
   <span routerLink="/admin">Yoga Admin</span>
   <button mat-stroked-button routerLink="slots" routerLinkActive="active">Planning</button>
   <button mat-stroked-button routerLink="cards" routerLinkActive="active">Cartes</button>
-  <span class="expand"></span>
+  <span class="yo-expand"></span>
 
   <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
     <ng-container *ngIf="auth.user$ | async as user">
       <button mat-fab [matMenuTriggerFor]="menu">
-         <img [ngSrc]="user.picture!" width="50" height="50" class="user-picture">
+         <img [ngSrc]="user.picture!" width="50" height="50" class="yo-user-picture">
       </button>
       <mat-menu #menu="matMenu">
         <span mat-menu-item disabled class="small-menu-item">{{ user.email }}</span>

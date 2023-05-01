@@ -1,7 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <h1 mat-dialog-title>Réserver une séance</h1>
   <div mat-dialog-content>
-    <div class="form-display">
+    <div class="yo-form-container">
       Etes-vous sûr de vouloir réserver la séance du {{slot.courseDate}}, tranche horaire {{slot.courseTime}} ?
       <mat-checkbox formControlName="emailConfirmation">Recevoir une confirmation par mail.</mat-checkbox>
     </div>

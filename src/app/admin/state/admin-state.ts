@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Action, State, StateContext} from '@ngxs/store';
 import {Slot} from '../../root/model/slot';
-import {CreateSlot, DeleteCard, DeleteSlot, LoadAdminState, LoadSlotParticipants, ValidateCard} from './admin-actions';
+import {CreateSlot, DeleteCard, DeleteSlot, LoadAdminState, ValidateCard} from './admin-actions';
 import {SlotRestService} from '../../core/services/slot-rest-service';
 import {combineLatest, tap} from 'rxjs';
 import {append, patch, removeItem, updateItem} from "@ngxs/store/operators";
@@ -10,8 +10,7 @@ import {Card} from '../../root/model/card';
 
 interface AdminStateModel {
   slots: Slot[],
-  cards: Card[],
-  slotParticipants?: Card[]
+  cards: Card[]
 }
 @State<AdminStateModel>({
   name: 'admin',
@@ -65,14 +64,6 @@ export class AdminState {
     )
   }
 
-  @Action(LoadSlotParticipants)
-  loadSlotParticipants(ctx: StateContext<AdminStateModel>, action: LoadSlotParticipants) {
-    return this.cardRestService.manageFindAllBySlot(action.id).pipe(
-      tap(cards => {
-        ctx.patchState({slotParticipants: cards})
-      })
-    )
-  }
   @Action(ValidateCard)
   validateCard(ctx: StateContext<AdminStateModel>, action: ValidateCard) {
     return this.cardRestService.manageUpdate({id: action.id, status: 'ACTIVE'}).pipe(

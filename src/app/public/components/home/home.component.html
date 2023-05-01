@@ -1,31 +1,39 @@
 Hi, Home component
 <button mat-button routerLink="admin">Admin</button>
 <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-  <ng-container *ngIf="userProfile$ | async as profile">
+  <ng-container *ngIf="yogaUser$ | async as user">
     <h2>Mon profil</h2>
     <button mat-flat-button color="accent"
             (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })">Log out
     </button>
-    <div>E-mail : {{ profile.email }}</div>
+    <div>E-mail : {{ user.email }}</div>
     <div *ngIf="profileComplete$ | async; else incompleteProfile">
       <div>
-        <div>Prénom: {{profile.firstName}}</div>
-        <div>Nom: {{profile.lastName}}</div>
-        <div>Téléphone: {{profile.phone}}</div>
+        <div>Prénom: {{user.firstName}}</div>
+        <div>Nom: {{user.lastName}}</div>
+        <div>Téléphone: {{user.phone}}</div>
       </div>
-      <button mat-raised-button (click)="openProfileDialog(profile)">Modifier mon profil</button>
+      <button mat-raised-button (click)="openProfileDialog(user)">Modifier mon profil</button>
 
       <h2>Mes cartes</h2>
-      <ng-container *ngIf="(cards$ | async)?.length === 0">
+      <ng-container *ngIf="(yogaUser$ | async)?.cards?.length === 0">
         <p>Vous n'avez actuellement aucune carte.</p>
         <p>Interessé par une carte 10 séances ?</p>
         <button mat-raised-button color="primary" (click)="orderCard()">
           Cliquer ici
         </button>
       </ng-container>
+      <ng-container>
+        <div class="yo-sub-item yo-colspan-item" *ngIf="singleCardIsFull$ | async">
+          <p>Interessé par une deuxième carte 10 séances ?</p>
+          <button mat-raised-button color="primary" (click)="orderCard()">
+            Cliquer ici
+          </button>
+        </div>
+      </ng-container>
     </div>
     <ng-template #incompleteProfile>
-      <p>Votre profil est incomplet, veuillez le <a href (click)="openProfileDialog(profile, $event)">remplir ici,
+      <p>Votre profil est incomplet, veuillez le <a href (click)="openProfileDialog(user, $event)">remplir ici,
         merci</a></p>
     </ng-template>
   </ng-container>
@@ -35,19 +43,17 @@ Hi, Home component
 </ng-template>
 
 <ul class="yo-list">
-  <li *ngFor="let card of cards$ | async" class="yo-list-item">
+  <li *ngFor="let card of (yogaUser$ | async)?.cards" class="yo-list-item">
     <mat-icon>badge</mat-icon>
     <div class="yo-list-item-main">
-      <span class="card-ref">{{card.id | cardId}}</span> <span class="card-price">{{card.price}} €</span>
+      <span class="yo-card-ref">{{card.id | cardId}}</span> <span class="yo-card-price">{{card.price}} €</span>
       <div class="yo-sub-item">Demandé le : {{card.createdTime | date}}</div>
       <div class="yo-sub-item">Capacité : {{card.capacity}} séances</div>
-      <div class="yo-sub-item" *ngIf="card.status === 'ACTIVE'">
+      <div class="yo-sub-item yo-success-item" *ngIf="card.status === 'ACTIVE'">
         Séances restantes : {{card.capacity - getBookedSlotsCount(card.id)}}
       </div>
     </div>
-    <div>
-
-    </div>
+    <div></div>
     <div>
       <span [ngClass]="card.status">{{card.status | cardStatus}}</span>
     </div>
@@ -59,35 +65,4 @@ Hi, Home component
   </li>
 </ul>
 
-<h2>Prochains cours</h2>
-<ul class="yo-list">
-  <li *ngFor="let slot of slots$ | async" class="yo-list-item">
-    <mat-icon>event_available</mat-icon>
-    <div class="yo-list-item-main">
-      {{slot.courseDate | date}}
-      <div class="yo-sub-item">{{slot.courseTime}}</div>
-    </div>
-    <div>
-      <div *ngIf="getBookedSlot(slot.id) as bookedSlot; else notBookedSlot">
-        <span class="booked">Réservé</span>
-        <span class="card-ref">{{bookedSlot.card.id | cardId}}</span>
-      </div>
-      <ng-template #notBookedSlot>
-        <span [matTooltip]="bookButtonTooltip(canBook$ | async)">
-          <button mat-flat-button color="primary"
-                  [disabled]="!(canBook$ | async)"
-                  (click)="bookSlot(slot)">
-            Réserver
-          </button>
-        </span>
-      </ng-template>
-    </div>
-    <div>
-      <button mat-icon-button *ngIf="getBookedSlot(slot.id) as bookedSlot"
-              matTooltip="Annuler la réservation de cette séance"
-              (click)="unbookSlot(bookedSlot)">
-        <mat-icon>cancel</mat-icon>
-      </button>
-    </div>
-  </li>
-</ul>
+<yog-slot-booking [bookedSlots]="bookedSlots"></yog-slot-booking>

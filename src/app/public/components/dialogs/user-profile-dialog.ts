@@ -1,9 +1,7 @@
 import {Component, Inject} from "@angular/core";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {User} from '@auth0/auth0-angular';
-import {PublicState} from '../../state/public-state';
-import {UserProfile} from '../../../root/model/user-profile';
+import {YogaUser} from "../../../root/model/yoga-user";
 
 interface Hour {
   value: string;
@@ -19,14 +17,14 @@ export class UserProfileDialog {
 
   constructor(
     private dialogRef: MatDialogRef<UserProfileDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: { profile: UserProfile },
+    @Inject(MAT_DIALOG_DATA) public data: { user: YogaUser },
     private fb: FormBuilder
   ) {
     this.form = fb.group({
-      email: fb.control(data.profile.email, Validators.required),
-      firstName: fb.control(data.profile.firstName, Validators.required),
-      lastName: fb.control(data.profile.lastName, Validators.required),
-      phone: fb.control(data.profile.phone, Validators.required)
+      email: fb.control(data.user.email, Validators.required),
+      firstName: fb.control(data.user.firstName, Validators.required),
+      lastName: fb.control(data.user.lastName, Validators.required),
+      phone: fb.control(data.user.phone, Validators.required)
     })
   }
 

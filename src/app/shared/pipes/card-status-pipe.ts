@@ -6,7 +6,16 @@ export class CardStatusPipe implements PipeTransform {
     if (!value) {
       return undefined;
     }
-    return value === 'PENDING' ? 'En attente' : value === 'ACTIVE' ? 'Active' : 'Inconnu'
+    switch (value) {
+      case 'PENDING':
+        return 'En attente'
+      case 'ACTIVE':
+        return 'Active'
+      case 'EXPIRED':
+        return 'Expirée'
+      default:
+        return 'Inconnu'
+    }
   }
 
 }

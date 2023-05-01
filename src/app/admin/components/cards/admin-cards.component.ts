@@ -18,9 +18,7 @@ export class AdminCardsComponent {
   @Select(state => state.admin.cards) cards$: Observable<Card[]>
   displayedColumns: string[] = ['user', 'cardId', 'price', 'status', 'createdTime', 'actions']
 
-  userTooltip: User;
-
-  constructor(private dialog: MatDialog, private store: Store, private userRestService: UserRestService) {
+  constructor(private dialog: MatDialog, private store: Store) {
   }
 
   validate(id: number): void {
@@ -37,11 +35,4 @@ export class AdminCardsComponent {
     });
   }
 
-  userInfo(userId: string) {
-    this.userRestService.manageFindByUserId(userId).subscribe(user => {
-      this.dialog.open(StandardSimpleDialog, {
-        data: {content: "<pre>" + JSON.stringify(user, null, 4) + "</pre>"},
-      });
-    })
-  }
 }

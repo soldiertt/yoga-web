@@ -1,10 +1,8 @@
-.ACTIVE {
-  padding: 5px;
-  color: white;
-  background-color: green;
+
+.yo-user {
+  font-weight: 500;
 }
-.PENDING {
-  padding: 5px;
-  color: white;
-  background-color: orange;
+.yo-user-details span {
+  display: inline-block;
+  margin-right: 30px;
 }

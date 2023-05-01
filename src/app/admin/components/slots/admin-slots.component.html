@@ -1,34 +1,39 @@
 <mat-toolbar color="accent">
-  <h1>Liste des cours plannifiés</h1>
-  <span class="expand"></span>
+  <h1>Liste des cours</h1>
+  <span class="yo-expand"></span>
+  <mat-checkbox #futureOnly>Cacher les cours passés</mat-checkbox>
+  <span class="yo-expand"></span>
   <button mat-fab (click)="createDialog()">
     <mat-icon>add_circle</mat-icon>
   </button>
 </mat-toolbar>
 <main>
   <mat-accordion class="expansion-admin-list">
-    <mat-expansion-panel *ngFor="let slot of slots$ | async | sortSlots" (afterExpand)="loadParticipants(slot.id)">
+    <mat-expansion-panel *ngFor="let slot of slots$ | async | filterSlots: (futureOnly.checked ? 'future' : '')"
+                         [class.yo-greyed-out]="!isFuture(slot)">
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{slot.courseDate | date}} - {{slot.courseTime}}
         </mat-panel-title>
         <mat-panel-description>
-          {{slot.participantsCount}} participant(s)
+          {{slot.cards ? slot.cards.length : 0}} participant(s)
           <div>
-            <button mat-icon-button color="primary" (click)="deleteDialog(slot.id, $event)">
+            <button mat-icon-button color="primary"
+                    *ngIf="isFuture(slot)"
+                    (click)="deleteDialog(slot.id, $event)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <mat-list *ngIf="slot.participantsCount! > 0; else noParticipant" class="participant-list">
-        <mat-list-item *ngFor="let participant of slotParticipants$ | async">
+      <mat-list *ngIf="slot.cards; else noParticipant" class="participant-list">
+        <mat-list-item *ngFor="let slotCard of slot.cards">
           <mat-icon matListItemIcon>person</mat-icon>
-          <div matListItemTitle>{{participant.owner?.firstName}} {{participant.owner?.lastName}}</div>
+          <div matListItemTitle>{{slotCard.owner?.firstName}} {{slotCard.owner?.lastName}}</div>
           <div matListItemLine>
-            <span>Tél. : {{participant.owner?.phone}}</span>
-            <span>Email : {{ participant.owner?.email}}</span>
-            <span class="card-ref">{{participant.id | cardId}}</span>
+            <span>Tél. : {{slotCard.owner?.phone}}</span>
+            <span>Email : {{ slotCard.owner?.email}}</span>
+            <span class="yo-card-ref">{{slotCard.id | cardId}}</span>
           </div>
         </mat-list-item>
       </mat-list>

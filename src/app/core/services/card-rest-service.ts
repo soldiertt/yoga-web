@@ -13,12 +13,6 @@ export class CardRestService {
     return this.http.get<Card[]>(`${this.BASE_URL}/manage/${this.entityName()}`)
   }
 
-  manageFindAllBySlot(slotId: number): Observable<Card[]> {
-    let params = new HttpParams()
-    params = params.set('slotId', slotId)
-    return this.http.get<Card[]>(`${this.BASE_URL}/manage/${this.entityName()}`, {params})
-  }
-
   manageUpdate(card: Partial<Card>): Observable<Card> {
     return this.http.patch<Card>(`${this.BASE_URL}/manage/${this.entityName()}/${card.id}`, card)
   }
