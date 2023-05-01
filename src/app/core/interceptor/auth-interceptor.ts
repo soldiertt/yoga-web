@@ -8,11 +8,18 @@ export class AuthHttpInterceptor implements HttpInterceptor {
   constructor(public auth:AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return this.auth.getAccessTokenSilently()
-      .pipe(
-        mergeMap((token) => {
-          return next.handle(req.clone({ setHeaders: { 'Authorization' : 'Bearer ' + token } }));
-        })
-      );
+    return this.auth.isAuthenticated$.pipe(
+      mergeMap((authenticated) => {
+        if (authenticated) {
+          return this.auth.getAccessTokenSilently().pipe(
+            mergeMap((token) => {
+              return next.handle(req.clone({ setHeaders: { 'Authorization' : 'Bearer ' + token } }));
+            })
+          )
+        } else {
+          return next.handle(req);
+        }
+      })
+    );
   }
 }

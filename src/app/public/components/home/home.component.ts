@@ -31,8 +31,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   constructor(@Inject(DOCUMENT) public document: Document,
               private dialog: MatDialog,
-              public auth: AuthService,
-              private store: Store) {
+              private store: Store,
+              public auth: AuthService) {
     this.store.dispatch(new LoadPublicState())
     this.bookedSlots$.pipe(takeUntil(this.destroy$))
       .subscribe(
@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.auth.isAuthenticated$.subscribe(bool => {
+    this.auth.isAuthenticated$.pipe(takeUntil(this.destroy$)).subscribe(bool => {
       if (bool) {
         this.store.dispatch(new Authentication())
       }
@@ -92,10 +92,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.store.dispatch(new CreateCard())
       }
     });
-  }
-
-  getBookedSlotsCount(cardId: number): number {
-    return this.bookedSlots?.filter(bs => bs.card.id === cardId).length;
   }
 
 }

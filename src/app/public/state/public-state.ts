@@ -1,7 +1,7 @@
 import {Action, Selector, State, StateContext} from '@ngxs/store';
 import {Injectable} from '@angular/core';
 import {AuthService} from '@auth0/auth0-angular';
-import {tap} from 'rxjs';
+import {combineLatest, tap} from 'rxjs';
 import {Authentication} from './actions/authentication';
 import {CardRestService} from '../../core/services/card-rest-service';
 import {BookSlot, CreateCard, UnbookSlot} from './actions/card-actions';
@@ -68,11 +68,13 @@ export class PublicState {
 
   @Action(Authentication)
   authentication(ctx: StateContext<PublicStateModel>) {
-    return this.userRestService.privateAuthentify().pipe(
-      tap(user => {
+    return combineLatest([this.userRestService.privateAuthentify(), this.auth.idTokenClaims$]).pipe(
+      tap(([user, claims]) => {
+        user.isAdmin = claims?.['https://www.yogaenpevele.fr/roles']?.includes('admin')
         ctx.patchState({user})
       })
     )
+
   }
 
   @Action(SaveProfile)

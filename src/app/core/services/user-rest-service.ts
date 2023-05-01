@@ -1,7 +1,6 @@
 import {Inject, Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
-import {User} from '@auth0/auth0-angular';
 import {YogaUser} from "../../root/model/yoga-user";
 
 @Injectable()

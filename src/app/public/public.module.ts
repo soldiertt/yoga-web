@@ -10,11 +10,13 @@ import {SharedUtilModule} from '../shared/shared-util.module';
 import {UserProfileDialog} from './components/dialogs/user-profile-dialog';
 import {ConfirmBookingDialog} from "./components/dialogs/confirm-booking-dialog";
 import {SlotBookingComponent} from "./components/slot-booking/slot-booking.component";
+import {MyCardsComponent} from './components/my-cards/my-cards.component';
 
 @NgModule({
   declarations: [
     ConfirmBookingDialog,
     HomeComponent,
+    MyCardsComponent,
     SlotBookingComponent,
     UserProfileDialog
   ],

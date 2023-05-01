@@ -7,4 +7,5 @@ export interface YogaUser {
   firstName?: string;
   lastName?: string;
   phone?: string;
+  isAdmin?: boolean;
 }
