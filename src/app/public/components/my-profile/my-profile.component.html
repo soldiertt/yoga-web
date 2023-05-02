@@ -1,19 +1,32 @@
-<h2>Mon profil</h2>
-<button mat-flat-button color="accent"
-        (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })">
-  Se déconnecter
-</button>
-<div>E-mail : {{ user.email }}</div>
-<div *ngIf="profileComplete$ | async; else incompleteProfile">
-  <div>
-    <div>Prénom: {{user.firstName}}</div>
-    <div>Nom: {{user.lastName}}</div>
-    <div>Téléphone: {{user.phone}}</div>
-  </div>
-  <button mat-raised-button (click)="openProfileDialog(user)">Modifier mon profil</button>
+<div *ngIf="profileComplete$ | async; else incompleteProfile" class="yo-card-grid">
+  <mat-card class="yo-card">
+    <h1 mat-card-title>Mon profil</h1>
+    <mat-card-content>
+      <div class="yo-profile-fields">
+        <span>E-mail :</span><span>{{ user.email }}</span>
+        <span>Prénom:</span><span>{{user.firstName}}</span>
+        <span>Nom:</span><span>{{user.lastName}}</span>
+        <span>Téléphone:</span><span>{{user.phone}}</span>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="accent" routerLink="admin" *ngIf="user.isAdmin">Admin</button>
+      <button mat-raised-button
+          (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })">
+        Se déconnecter
+      </button>
+      <button mat-raised-button color="primary" (click)="openProfileDialog(user)">Modifier mon profil</button>
+    </mat-card-actions>
+  </mat-card>
   <yog-my-cards [cards]="user.cards" [bookedSlots]="bookedSlots"></yog-my-cards>
 </div>
 <ng-template #incompleteProfile>
-  <p>Votre profil est incomplet, veuillez le <a href (click)="openProfileDialog(user, $event)">remplir ici,
-    merci</a></p>
+  <mat-card>
+    <h1 mat-card-title>Mon profil</h1>
+    <mat-card-content>
+      <div>E-mail : {{ user.email }}</div>
+      <p>Votre profil est incomplet, veuillez le <a href (click)="openProfileDialog(user, $event)">remplir ici,
+        merci</a></p>
+    </mat-card-content>
+  </mat-card>
 </ng-template>

@@ -1,17 +1,11 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {AuthService} from '@auth0/auth0-angular';
-import {DOCUMENT} from '@angular/common';
 import {Select, Store} from '@ngxs/store';
 import {Observable, Subject, takeUntil} from 'rxjs';
 import {Card} from '../../../root/model/card';
-import {CreateCard} from '../../state/actions/card-actions';
 import {Slot} from '../../../root/model/slot';
 import {LoadPublicState} from '../../state/actions/load-public-state';
 import {PublicState} from '../../state/public-state';
-import {StandardConfirmDialog} from '../../../shared/components/standard-confirm-dialog';
-import {MatDialog} from '@angular/material/dialog';
-import {SaveProfile} from '../../state/actions/save-profile';
-import {UserProfileDialog} from '../dialogs/user-profile-dialog';
 import {YogaUser} from '../../../root/model/yoga-user';
 import {Authentication} from '../../state/actions/authentication';
 

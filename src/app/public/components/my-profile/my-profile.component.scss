@@ -1,0 +1,17 @@
+.yo-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 10px;
+  text-align: left;
+}
+.yo-profile-fields {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+}
+
+@media (max-width: 1000px) {
+  .yo-card-grid {
+    grid-template-columns: 1fr;
+    grid-column-gap: 5px;
+  }
+}

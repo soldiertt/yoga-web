@@ -2,12 +2,29 @@
 @import "@angular/material/prebuilt-themes/deeppurple-amber.css";
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.mdc-card {
+  padding: 20px;
+}
+@media (max-width: 1200px) {
+  .mdc-card {
+    padding: 8px;
+  }
+}
+.mat-mdc-card-actions button {
+  margin: 10px;
+}
 
 main {
   padding: 20px;
 }
-
+.yo-container {
+  margin: auto;
+  text-align: center;
+}
 .ACTIVE {
   padding: 0 5px;
   color: white;
@@ -25,12 +42,28 @@ main {
 }
 
 .yo-list {
+  background-color: #B1C17A;
   list-style: none;
   max-width: 600px;
-  padding-left: 20px;
+  padding: 30px;
+  margin: auto;
+  border-radius: 12px;
+  .yo-list-item-slot {
+    grid-template-columns: 1fr 2fr 2fr 1fr;
+    .yo-colspan-item {
+      grid-column-start: 2;
+      grid-column-end: 5;
+    }
+  }
+  .yo-list-item-card {
+    grid-template-columns: 1fr 3fr 1fr;
+    .yo-colspan-item {
+      grid-column-start: 2;
+      grid-column-end: 4;
+    }
+  }
   .yo-list-item {
     display: grid;
-    grid-template-columns: 50px auto 200px 100px;
     border-bottom: 1px solid lightgrey;
     margin-bottom: 10px;
     .yo-list-item-main {
@@ -38,10 +71,6 @@ main {
     }
     .yo-sub-item{
       font-size: 0.9em;
-    }
-    .yo-colspan-item {
-      grid-column-start: 2;
-      grid-column-end: 5;
     }
     .mdc-icon-button {
       border: 0;
@@ -52,14 +81,23 @@ main {
   }
 }
 
+@media (max-width: 1000px) {
+  .yo-list {
+    padding: 10px;
+  }
+}
+
 .yo-warn-item {
-  color: red;
+  color: brown;
   font-style: italic;
 }
 .yo-success-item {
   color: green;
 }
 
+.yo-card {
+  background-color: #eee !important;
+}
 
 .yo-expand {
   flex: 1 1 auto;

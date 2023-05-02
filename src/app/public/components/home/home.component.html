@@ -1,10 +1,21 @@
-Hi, Home component
-<ng-container *ngIf="yogaUser$ | async as user; else loggedOut">
-  <button mat-button routerLink="admin" *ngIf="user.isAdmin">Admin</button>
-  <yog-my-profile [user]="user" [bookedSlots]="bookedSlots"></yog-my-profile>
-</ng-container>
-<ng-template #loggedOut>
-  <button mat-button (click)="auth.loginWithRedirect()">Se connecter</button>
-</ng-template>
-
-<yog-slot-booking [bookedSlots]="bookedSlots"></yog-slot-booking>
+<div class="yo-container">
+  <header>
+    <h1>Yoga en Pévèle</h1>
+    <h2>Module de réservation</h2>
+  </header>
+  <section class="yo-light-section">
+    <ng-container *ngIf="yogaUser$ | async as user; else loggedOut">
+      <yog-my-profile [user]="user" [bookedSlots]="bookedSlots"></yog-my-profile>
+    </ng-container>
+    <ng-template #loggedOut>
+      <div class="yo-login-text">
+      <p>Vous n'êtes actuellement pas connecté.</p>
+      <p>Etre connecté vous permettra d'effectuer des réservations de séances en ligne.</p>
+      <button mat-raised-button (click)="auth.loginWithRedirect()" color="primary">Se connecter</button>
+      </div>
+    </ng-template>
+  </section>
+  <section class="yo-dark-section">
+    <yog-slot-booking [bookedSlots]="bookedSlots"></yog-slot-booking>
+  </section>
+</div>
