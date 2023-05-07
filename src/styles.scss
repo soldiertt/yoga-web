@@ -1,10 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
 @import "@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import "variables";
+
 
 html, body { height: 100%; }
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: $yoga-light-green;
 }
 .mdc-card {
   padding: 20px;
@@ -18,6 +22,9 @@ body {
   margin: 10px;
 }
 
+.mat-mdc-dialog-container .mdc-dialog__surface {
+ background-color: $yoga-light-green !important;
+}
 main {
   padding: 20px;
 }
@@ -27,8 +34,8 @@ main {
 }
 .ACTIVE {
   padding: 0 5px;
-  color: white;
-  background-color: green;
+  color: black;
+  background-color: lightgreen;
 }
 .PENDING {
   padding: 0 5px;
@@ -42,7 +49,8 @@ main {
 }
 
 .yo-list {
-  background-color: #B1C17A;
+  background-color: $yoga-dark-green;
+  color: white;
   list-style: none;
   max-width: 600px;
   padding: 30px;
@@ -88,15 +96,16 @@ main {
 }
 
 .yo-warn-item {
-  color: brown;
+  color: orange;
   font-style: italic;
 }
 .yo-success-item {
-  color: green;
+  color: lightgreen;
 }
 
 .yo-card {
   background-color: #eee !important;
+  margin-top: 5px;
 }
 
 .yo-expand {

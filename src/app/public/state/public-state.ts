@@ -80,8 +80,8 @@ export class PublicState {
   @Action(SaveProfile)
   saveProfile(ctx: StateContext<PublicStateModel>, action: SaveProfile) {
     return this.userRestService.privateUpdateProfile(action.user).pipe(
-      tap(profile => {
-        ctx.setState(patch({user: patch({...action.user})}))
+      tap(yogaUser => {
+        ctx.setState(patch({user: yogaUser}))
       })
     )
   }

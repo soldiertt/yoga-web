@@ -10,7 +10,7 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="accent" routerLink="admin" *ngIf="user.isAdmin">Admin</button>
+      <button mat-raised-button color="accent" routerLink="/admin" *ngIf="user.isAdmin">Admin</button>
       <button mat-raised-button
           (click)="auth.logout({ logoutParams: { returnTo: document.location.origin } })">
         Se déconnecter

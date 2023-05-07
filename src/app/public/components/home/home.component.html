@@ -3,7 +3,7 @@
     <h1>Yoga en Pévèle</h1>
     <h2>Module de réservation</h2>
   </header>
-  <section class="yo-light-section">
+  <section class="yo-section">
     <ng-container *ngIf="yogaUser$ | async as user; else loggedOut">
       <yog-my-profile [user]="user" [bookedSlots]="bookedSlots"></yog-my-profile>
     </ng-container>
@@ -15,7 +15,10 @@
       </div>
     </ng-template>
   </section>
-  <section class="yo-dark-section">
+  <section class="yo-section">
     <yog-slot-booking [bookedSlots]="bookedSlots"></yog-slot-booking>
   </section>
+  <footer>
+    &copy; 2017 YEP - Yoga en Pévèle
+  </footer>
 </div>

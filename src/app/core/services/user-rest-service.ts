@@ -13,8 +13,8 @@ export class UserRestService {
     return this.http.get<YogaUser>(`${this.BASE_URL}/private/${this.entityName()}`);
   }
 
-  privateUpdateProfile(user: Partial<YogaUser>): Observable<Partial<YogaUser>> {
-    return this.http.patch<Partial<YogaUser>>(`${this.BASE_URL}/private/${this.entityName()}`, user);
+  privateUpdateProfile(user: Partial<YogaUser>): Observable<YogaUser> {
+    return this.http.patch<YogaUser>(`${this.BASE_URL}/private/${this.entityName()}`, user);
   }
 
   private entityName(): string {

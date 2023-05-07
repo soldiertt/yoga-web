@@ -1,3 +1,5 @@
+@import "src/variables.scss";
+
 header {
   background-image: url('/assets/images/back4.jpg');
   background-repeat: no-repeat;
@@ -6,7 +8,7 @@ header {
   h1 {
     padding: 100px;
     font-size: 5em;
-    color: #004D40;
+    color: $yoga-dark-green;
   }
   h2 {
     padding: 0 50px 50px 50px;
@@ -37,14 +39,16 @@ header {
     }
   }
 }
-.yo-light-section {
-  background-color: white;
+.yo-section {
   padding: 30px;
 }
-.yo-dark-section {
-  background-color: #D5D299;
-  padding: 30px;
-}
+
 .yo-login-text {
   font-size: 1.5em;
+}
+
+footer {
+  background-color: $yoga-dark-green;
+  color: white;
+  padding: 20px;
 }
