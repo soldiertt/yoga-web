@@ -19,7 +19,7 @@ export class CreateSlotDialog {
     private dialogRef: MatDialogRef<CreateSlotDialog>,
     private fb: FormBuilder
   ) {
-    this.hours = [{value: '09h00-10h15', label: '09H00 - 10H15'}, {value: '10h30-11h45', label: '10H30 - 11H45'}, {value: '19h00-20h15', label: '19H00 - 20H15'}]
+    this.hours = [{value: '10h00-11h15', label: '10H00 - 11H15'}, {value: '19h00-20h15', label: '19H00 - 20H15'}]
     this.form = fb.group({
       date: fb.control(null, Validators.required),
       time: fb.control(null, Validators.required)

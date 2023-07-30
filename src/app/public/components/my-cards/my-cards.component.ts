@@ -7,6 +7,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {Select, Store} from '@ngxs/store';
 import {PublicState} from '../../state/public-state';
 import {Observable} from 'rxjs';
+import {DateTime} from 'luxon';
+import {CARD_EXPIRATION_MONTHS} from '../../../core/parameters';
 
 @Component({
   selector: 'yog-my-cards',
@@ -32,15 +34,7 @@ export class MyCardsComponent {
       data: {
         title: 'Commander une carte',
         htmlContent: `<p>Vous êtes sur le point de commander une nouvelle carte pour 10 séances de Yoga. Prix: 150€</p>
-                <p>Après avoir commandé cette carte, veuillez payer le montant à l'aide d'un virement bancaire
-                avec les références suivantes:</p>
-                <p>
-                    Nom: <strong>Yoga En Pévèle</strong><br/>
-                    N° de compte : <strong>FR76 3002 7171 3500 0203 9110 110</strong><br/>
-                    Communication: <strong>Votre nom + prénom</strong>
-                </p>
-                <p>Votre demande sera traitée dès que possible, après réception du paiement (compter 3 jours ouvrables),
-                vous serez alors en mesure de faire vos réservations de séances en ligne.</p>
+                <p>Confirmez ?</p>
                 `
       }
     }
@@ -52,4 +46,7 @@ export class MyCardsComponent {
     });
   }
 
+  expiration(creationDate: string): Date {
+    return DateTime.fromISO(creationDate).plus({month: CARD_EXPIRATION_MONTHS}).toJSDate();
+  }
 }

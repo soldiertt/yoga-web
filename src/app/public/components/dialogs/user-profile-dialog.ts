@@ -21,10 +21,10 @@ export class UserProfileDialog {
     private fb: FormBuilder
   ) {
     this.form = fb.group({
-      email: fb.control(data.user.email, Validators.required),
-      firstName: fb.control(data.user.firstName, Validators.required),
-      lastName: fb.control(data.user.lastName, Validators.required),
-      phone: fb.control(data.user.phone, Validators.required)
+      email: fb.control(data.user.email, [Validators.required, Validators.email]),
+      firstName: fb.control(data.user.firstName, [Validators.required, Validators.minLength(2)]),
+      lastName: fb.control(data.user.lastName, [Validators.required, Validators.minLength(2)]),
+      phone: fb.control(data.user.phone, [Validators.required, Validators.minLength(9)])
     })
   }
 

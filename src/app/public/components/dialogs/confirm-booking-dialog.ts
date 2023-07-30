@@ -2,12 +2,14 @@ import {Component, Inject} from "@angular/core";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Slot} from "../../../root/model/slot";
+import {CANCEL_DEADLINE_HOURS} from '../../../core/parameters';
 
 @Component({
   templateUrl: 'confirm-booking-dialog.html'
 })
 export class ConfirmBookingDialog {
 
+  protected readonly CANCEL_DEADLINE_HOURS = CANCEL_DEADLINE_HOURS;
   form: FormGroup
   slot: Slot
 

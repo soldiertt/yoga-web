@@ -1,33 +1,37 @@
-<h1>Prochains cours</h1>
+<h1>Prochaines séances</h1>
 <div *ngIf="!(publicSlots$ | async)?.length">
   Aucun cours prévu pour le moment
 </div>
-<ul class="yo-list">
-  <li *ngFor="let slot of publicSlots$ | async" class="yo-list-item yo-list-item-slot">
-    <mat-icon>event_available</mat-icon>
-    <div class="yo-list-item-main">
-      {{slot.courseDate | date}}
-      <div class="yo-sub-item">{{slot.courseTime}}</div>
-    </div>
-    <div>
-      <div *ngIf="getBookedSlot(slot.id) as bookedSlot">
-        <span class="yo-slot-booked">Réservé</span>
-        <span class="yo-card-ref">{{bookedSlot.card.id | cardId}}</span>
+<div *ngIf="publicSlots$ | async as publicSlots">
+  <ul class="yo-list" *ngIf="publicSlots.length > 0">
+    <li *ngFor="let slot of publicSlots" class="yo-list-item yo-list-item-slot">
+      <mat-icon>event_available</mat-icon>
+      <div class="yo-list-item-main">
+        {{slot.courseDate | date : 'fullDate'}}
+        <div class="yo-sub-item">{{slot.courseTime}}</div>
       </div>
-    </div>
-    <div>
-      <span [matTooltip]="bookButtonTooltip(canBook$ | async)" *ngIf="!getBookedSlot(slot.id)">
-        <button mat-flat-button color="primary"
-                  [disabled]="!(canBook$ | async)"
-                  (click)="bookSlot(slot)">
-            Réserver
-        </button>
-      </span>
-      <button mat-icon-button *ngIf="getBookedSlot(slot.id) as bookedSlot"
-              matTooltip="Annuler la réservation de cette séance"
-              (click)="unbookSlot(bookedSlot)">
-        <mat-icon>cancel</mat-icon>
-      </button>
-    </div>
-  </li>
-</ul>
+      <div>
+        <div *ngIf="getBookedSlot(slot.id) as bookedSlot">
+          <span class="yo-slot-booked">Réservé</span>
+          <span class="yo-card-ref">{{bookedSlot.card.id | cardId}}</span>
+        </div>
+      </div>
+      <div>
+        <div [matTooltip]="bookButtonTooltip((canBook$ | async), slot.participantsCount)" *ngIf="!getBookedSlot(slot.id)">
+          <button mat-flat-button color="primary"
+                    [disabled]="!(canBook$ | async) || slotIsFull(slot)"
+                    (click)="bookSlot(slot)">
+              Réserver
+          </button>
+        </div>
+        <div [matTooltip]="unbookButtonTooltip(bookedSlot.slot)" *ngIf="getBookedSlot(slot.id) as bookedSlot">
+          <button mat-icon-button
+                  [disabled]="cannotUnbook(bookedSlot.slot)"
+                  (click)="unbookSlot(bookedSlot)">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

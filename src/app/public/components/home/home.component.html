@@ -9,9 +9,19 @@
     </ng-container>
     <ng-template #loggedOut>
       <div class="yo-login-text">
-      <p>Vous n'êtes actuellement pas connecté.</p>
-      <p>Etre connecté vous permettra d'effectuer des réservations de séances en ligne.</p>
-      <button mat-raised-button (click)="auth.loginWithRedirect()" color="primary">Se connecter</button>
+        <p>Vous n'êtes actuellement pas connecté.</p>
+        <p>Etre connecté vous permettra d'effectuer des réservations de séances en ligne.</p>
+        <button mat-raised-button (click)="auth.loginWithRedirect()" color="primary">Se connecter</button>
+      </div>
+      <div class="yo-login-info">
+        <p>Un premier contact est indispensable pour vous inscrire à une séance d’essai.</p>
+        <p>Merci de prendre contact par téléphone 06.59.55.94.22 ou par mail : yogaenpevele@gmail.com</p>
+        <p>Une fois votre séance d’essai réalisée, voici la marche à suivre :</p>
+        <ol>
+          <li>Vous connecter sur ce site et compléter votre profil.</li>
+          <li>Effectuer le virement pour activer votre carte de 10 séances.</li>
+          <li>Réserver votre séance ou vos séances avant chaque cours sur le planning du site, cette réservation est indispensable pour valider votre inscription au cours.</li>
+        </ol>
       </div>
     </ng-template>
   </section>

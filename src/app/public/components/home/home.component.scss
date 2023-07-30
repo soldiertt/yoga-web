@@ -46,6 +46,15 @@ header {
 .yo-login-text {
   font-size: 1.5em;
 }
+.yo-login-info {
+  background-color: #eeeeee;
+  border-radius: 8px;
+  text-align: left;
+  max-width: 600px;
+  margin: auto;
+  margin-top: 20px;
+  padding: 20px;
+}
 
 footer {
   background-color: $yoga-dark-green;

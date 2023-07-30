@@ -25,8 +25,8 @@
     <h1 mat-card-title>Mon profil</h1>
     <mat-card-content>
       <div>E-mail : {{ user.email }}</div>
-      <p>Votre profil est incomplet, veuillez le <a href (click)="openProfileDialog(user, $event)">remplir ici,
-        merci</a></p>
+      <p><mat-icon color="warn">warning</mat-icon> Votre profil est incomplet, veuillez le <a href (click)="openProfileDialog(user, $event)">remplir ici</a>,
+        merci.</p>
     </mat-card-content>
   </mat-card>
 </ng-template>

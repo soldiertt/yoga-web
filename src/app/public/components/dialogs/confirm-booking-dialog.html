@@ -2,8 +2,8 @@
   <h1 mat-dialog-title>Réserver une séance</h1>
   <div mat-dialog-content>
     <div class="yo-form-container">
-      <p>Etes-vous sûr de vouloir réserver la séance du {{slot.courseDate}}, tranche horaire {{slot.courseTime}} ?</p>
-      <p>L'annulation de la réservation sera possible jusqu'à 2 jours avant la séance.</p>
+      <p>Etes-vous sûr de vouloir réserver la séance du {{slot.courseDate | date : 'fullDate' }}, tranche horaire {{slot.courseTime}} ?</p>
+      <p>L'annulation de la réservation sera possible jusqu'à {{CANCEL_DEADLINE_HOURS}} heures avant la séance.</p>
       <mat-checkbox formControlName="emailConfirmation">Recevoir une confirmation par mail.</mat-checkbox>
     </div>
   </div>

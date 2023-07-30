@@ -5,14 +5,17 @@
       <mat-form-field appearance="fill">
         <mat-label>Prénom</mat-label>
         <input matInput formControlName="firstName">
+        <mat-error *ngIf="form.controls['firstName'].hasError('minlength')">Minimum 2 caractères</mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Nom de famille</mat-label>
         <input matInput formControlName="lastName">
+        <mat-error *ngIf="form.controls['lastName'].hasError('minlength')">Minimum 2 caractères</mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Numéro de téléphone</mat-label>
         <input matInput formControlName="phone">
+        <mat-error *ngIf="form.controls['phone'].hasError('minlength')">Minimum 9 caractères</mat-error>
       </mat-form-field>
     </div>
   </div>

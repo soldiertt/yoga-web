@@ -9,6 +9,8 @@ import {StandardConfirmDialog} from '../../../shared/components/standard-confirm
 import {MatDialog} from '@angular/material/dialog';
 import {DatePipe} from '@angular/common';
 import {PublicState} from '../../state/public-state';
+import {DateTime} from 'luxon';
+import {CANCEL_DEADLINE_HOURS, MAX_PARTICIPANTS_COURSE} from '../../../core/parameters';
 
 @Component({
   selector: 'yog-slot-booking',
@@ -50,9 +52,21 @@ export class SlotBookingComponent {
     })
   }
 
-  bookButtonTooltip(canBook: boolean | null) {
-    return canBook ? 'Réserver cette séance' :
+  cannotUnbook(slot: Slot): boolean {
+    return DateTime.fromISO(slot.courseDate).diff(DateTime.now(), 'hours').hours < CANCEL_DEADLINE_HOURS
+  }
+
+  bookButtonTooltip(canBook: boolean | null, participantsCount?: number): string {
+    return canBook ? (participantsCount! < MAX_PARTICIPANTS_COURSE ? 'Réserver cette séance' : 'Cette séance est complète') :
       'Vous ne pouvez pas réserver à ce stade, vérifier que vous êtes connecté et que vous disposez d\'une carte active'
   }
 
+  unbookButtonTooltip(slot: Slot): string {
+    return this.cannotUnbook(slot) ? `Vous ne pouvez plus annuler la réservation, la séance a lieu dans près de ${CANCEL_DEADLINE_HOURS} heures` :
+      'Annuler la réservation de cette séance'
+  }
+
+  slotIsFull(slot: Slot): boolean {
+    return slot.participantsCount! >= MAX_PARTICIPANTS_COURSE
+  }
 }
