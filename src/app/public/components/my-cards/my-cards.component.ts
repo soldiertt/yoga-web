@@ -31,7 +31,7 @@ export class MyCardsComponent {
     const dialogConfig = {
       data: {
         title: 'Commander une carte',
-        htmlContent: `<p>Vous êtes sur le point de commander une nouvelle carte pour 10 séances de Yoga. Prix: 150€, validité: 6 mois.</p>
+        htmlContent: `<p>Vous êtes sur le point de commander une nouvelle carte pour 10 séances de Yoga. Prix: 150€, validité: 1 an.</p>
                 <p>Confirmez ?</p>
                 `
       }
