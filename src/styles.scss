@@ -55,6 +55,7 @@ main {
   max-width: 600px;
   padding: 30px;
   margin: auto;
+  margin-bottom: 10px;
   border-radius: 12px;
   .yo-list-item-slot {
     grid-template-columns: 1fr 2fr 2fr 1fr;

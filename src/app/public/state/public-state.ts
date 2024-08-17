@@ -4,7 +4,7 @@ import {AuthService} from '@auth0/auth0-angular';
 import {combineLatest, tap} from 'rxjs';
 import {Authentication} from './actions/authentication';
 import {CardRestService} from '../../core/services/card-rest-service';
-import {BookSlot, CreateCard, UnbookSlot} from './actions/card-actions';
+import {BookSlot, CreateCardLong, CreateCardShort, UnbookSlot} from './actions/card-actions';
 import {append, patch, updateItem} from '@ngxs/store/operators';
 import {Slot} from '../../root/model/slot';
 import {LoadPublicState} from './actions/load-public-state';
@@ -86,11 +86,24 @@ export class PublicState {
     )
   }
 
-  @Action(CreateCard)
-  createCardRequest(ctx: StateContext<PublicStateModel>) {
+  @Action(CreateCardLong)
+  createCardLongRequest(ctx: StateContext<PublicStateModel>) {
     const userId = ctx.getState().user?.userId;
     if (userId) {
-      return this.cardRestService.privateCreate().pipe(
+      return this.cardRestService.privateCreateLong().pipe(
+        tap(card => {
+          ctx.setState(patch({user: patch({cards: append([card])})}))
+        })
+      )
+    }
+    return
+  }
+
+  @Action(CreateCardShort)
+  createCardShortRequest(ctx: StateContext<PublicStateModel>) {
+    const userId = ctx.getState().user?.userId;
+    if (userId) {
+      return this.cardRestService.privateCreateShort().pipe(
         tap(card => {
           ctx.setState(patch({user: patch({cards: append([card])})}))
         })

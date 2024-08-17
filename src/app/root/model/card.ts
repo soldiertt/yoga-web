@@ -6,6 +6,7 @@ export interface Card {
   price: number;
   status: 'PENDING' | 'ACTIVE' | 'DELETED';
   capacity: number;
+  expirationTime: string;
   slots: Slot[];
   owner?: YogaUser;
   createdTime: string;

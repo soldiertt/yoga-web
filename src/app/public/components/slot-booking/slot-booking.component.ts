@@ -58,7 +58,7 @@ export class SlotBookingComponent {
 
   bookButtonTooltip(canBook: boolean | null, participantsCount?: number): string {
     return canBook ? (participantsCount! < MAX_PARTICIPANTS_COURSE ? 'Réserver cette séance' : 'Cette séance est complète') :
-      'Vous ne pouvez pas réserver à ce stade, vérifier que vous êtes connecté et que vous disposez d\'une carte active'
+      'Vous ne pouvez pas réserver à ce stade, vérifier que vous êtes connecté et que vous disposez d\'une carte active et non remplie.'
   }
 
   unbookButtonTooltip(slot: Slot): string {

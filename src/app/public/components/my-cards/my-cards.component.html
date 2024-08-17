@@ -3,7 +3,11 @@
   <ng-container *ngIf="cards?.length === 0; else hasCards">
     <mat-card-content>
       <p>Vous n'avez actuellement aucune carte, interessé par une carte 10 séances ?</p>
-      <p>Prix: 150€</p>
+      <p>Deux options s'offrent à vous:</p>
+      <ul>
+        <li>Prix: <strong>150€</strong> (Durée de validité de 6 mois)</li>
+        <li>Prix: <strong>135€</strong> (Durée de validité jusqu'au 20 décembre 2024)</li>
+      </ul>
       <p>Après avoir commandé cette carte, veuillez payer le montant à l'aide d'un virement bancaire
         avec les références suivantes:</p>
       <p>
@@ -15,7 +19,8 @@
         vous serez alors en mesure de faire vos réservations de séances en ligne.</p>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="orderCard()">Commander une carte</button>
+      <button mat-raised-button color="primary" (click)="orderCardLong()">Commander une carte à 150€</button>
+      <button mat-raised-button color="primary" (click)="orderCardShort()">Commander une carte à 135€</button>
     </mat-card-actions>
   </ng-container>
   <ng-template #hasCards>
@@ -26,7 +31,7 @@
           <div class="yo-list-item-main">
             <span class="yo-card-ref">{{card.id | cardId}}</span> <span class="yo-card-price">{{card.price}} €</span>
             <div class="yo-sub-item">Demandé le : {{card.createdTime | date}}</div>
-            <div class="yo-sub-item-small">Expire le : {{expiration(card.createdTime) | date}}</div>
+            <div class="yo-sub-item-small">Expire le : {{card.expirationTime | date}}</div>
             <div class="yo-sub-item">Capacité : {{card.capacity}} séances</div>
             <div class="yo-sub-item yo-success-item" *ngIf="card.status === 'ACTIVE'">
               Séances restantes : {{card.capacity - getBookedSlotsCount(card.id)}}
@@ -55,7 +60,14 @@
       </ul>
       <div *ngIf="singleCardIsFull$ | async">
         <p>Interessé par une nouvelle carte 10 séances ?</p>
-        <button mat-raised-button color="primary" (click)="orderCard()">Commander une carte</button>
+        <ul>
+          <li>Prix: <strong>150€</strong> (Durée de validité de 6 mois)</li>
+          <li>Prix: <strong>135€</strong> (Durée de validité jusqu'au 20 décembre 2024)</li>
+        </ul>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="orderCardLong()">Commander une carte à 150€</button>
+          <button mat-raised-button color="primary" (click)="orderCardShort()">Commander une carte à 135€</button>
+        </mat-card-actions>
       </div>
     </mat-card-content>
   </ng-template>

@@ -16,11 +16,17 @@ export class CardRestService {
   manageUpdate(card: Partial<Card>): Observable<Card> {
     return this.http.patch<Card>(`${this.BASE_URL}/manage/${this.entityName()}/${card.id}`, card)
   }
+
   manageDelete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.BASE_URL}/manage/${this.entityName()}/${id}`)
   }
-  privateCreate(): Observable<Card> {
-    return this.http.post<Card>(`${this.BASE_URL}/private/${this.entityName()}`, {})
+
+  privateCreateLong(): Observable<Card> {
+    return this.http.post<Card>(`${this.BASE_URL}/private/${this.entityName()}/long`, {})
+  }
+
+  privateCreateShort(): Observable<Card> {
+    return this.http.post<Card>(`${this.BASE_URL}/private/${this.entityName()}/short`, {})
   }
 
   privateBook(slotId: number, emailConfirmation: boolean): Observable<Card> {
