@@ -62,7 +62,8 @@ export class SlotBookingComponent {
   }
 
   unbookButtonTooltip(slot: Slot): string {
-    return this.cannotUnbook(slot) ? `Vous ne pouvez plus annuler la réservation, la séance a lieu dans près de ${CANCEL_DEADLINE_HOURS} heures` :
+    // `Vous ne pouvez plus annuler la réservation, la séance a lieu dans près de ${CANCEL_DEADLINE_HOURS} heures`
+    return this.cannotUnbook(slot) ? 'Vous ne pouvez plus annuler la réservation, la séance est passée' :
       'Annuler la réservation de cette séance'
   }
 

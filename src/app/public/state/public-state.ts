@@ -35,7 +35,9 @@ export class PublicState {
   static singleCardIsFull(state: PublicStateModel): boolean {
     const pendingCardsCount = state.user?.cards?.filter(card => card.status === 'PENDING').length
     const activeCardsCount = state.user?.cards?.filter(card => card.status === 'ACTIVE').length
-    return pendingCardsCount === 0 && activeCardsCount === 1 && !!state.user?.cards?.some(card => card.status === 'ACTIVE' && card.capacity <= card.slots.length)
+    return pendingCardsCount === 0
+      && ((activeCardsCount === 1 && !!state.user?.cards?.some(card => card.status === 'ACTIVE' && card.capacity <= card.slots.length))
+          || activeCardsCount === 0)
   }
 
   @Selector()
