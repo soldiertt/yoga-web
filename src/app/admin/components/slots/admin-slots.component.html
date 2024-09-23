@@ -13,7 +13,7 @@
                          [class.yo-greyed-out]="!isFuture(slot)">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          {{slot.courseDate | date}} - {{slot.courseTime}}
+          {{slot.courseTimestamp | date}} - {{slot.courseTime}}
         </mat-panel-title>
         <mat-panel-description>
           {{slot.cards ? slot.cards.length : 0}} participant(s)

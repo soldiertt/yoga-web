@@ -23,14 +23,13 @@ export class AdminSlotsComponent {
     const dialogRef = this.dialog.open(CreateSlotDialog)
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const courseDate = result.date.toISODate()
-        this.store.dispatch(new CreateSlot({courseDate, courseTime: result.time}))
+        this.store.dispatch(new CreateSlot({courseTimestamp: result.dateTime, courseTime: result.time}))
       }
     });
   }
 
   isFuture(slot: Slot): boolean {
-    return DateTime.fromFormat(slot.courseDate, 'yyyy-MM-dd') >= DateTime.now()
+    return DateTime.fromISO(slot.courseTimestamp) >= DateTime.now()
   }
 
   deleteDialog(id: number, $event?) : void {

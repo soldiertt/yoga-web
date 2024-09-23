@@ -42,7 +42,7 @@ export class SlotBookingComponent {
   unbookSlot({card, slot} : {card: Card, slot: Slot}): void {
     const dialogConfig = {data: {
         title: 'Annuler une séance',
-        htmlContent: `Etes-vous sûr de vouloir annuler la réservation de la séance du ${this.datePipe.transform(slot.courseDate)}, tranche horaire ${slot.courseTime} ?`
+        htmlContent: `Etes-vous sûr de vouloir annuler la réservation de la séance du ${this.datePipe.transform(slot.courseTimestamp)}, tranche horaire ${slot.courseTime} ?`
       }}
     const dialogRef = this.dialog.open(StandardConfirmDialog, dialogConfig)
     dialogRef.afterClosed().subscribe(result => {
@@ -53,7 +53,7 @@ export class SlotBookingComponent {
   }
 
   cannotUnbook(slot: Slot): boolean {
-    return DateTime.fromISO(slot.courseDate).diff(DateTime.now(), 'hours').hours < CANCEL_DEADLINE_HOURS
+    return DateTime.fromISO(slot.courseTimestamp).diff(DateTime.now(), 'hours').hours < CANCEL_DEADLINE_HOURS
   }
 
   bookButtonTooltip(canBook: boolean | null, participantsCount?: number): string {

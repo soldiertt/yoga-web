@@ -2,7 +2,7 @@ import {Card} from "./card";
 
 export interface Slot {
   id: number;
-  courseDate: string;
+  courseTimestamp: string;
   courseTime: string;
   participantsCount?: number;
   cards?: Card[];

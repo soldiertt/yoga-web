@@ -1,10 +1,11 @@
-import {Component, Inject} from "@angular/core";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormBuilder, FormGroup, NgForm, Validators} from "@angular/forms";
+import {Component} from "@angular/core";
+import {MatDialogRef} from "@angular/material/dialog";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 interface Hour {
   value: string;
   label: string;
+  timestamp: string;
 }
 
 @Component({
@@ -17,11 +18,11 @@ export class CreateSlotDialog {
 
   constructor(
     private dialogRef: MatDialogRef<CreateSlotDialog>,
-    private fb: FormBuilder
+    fb: FormBuilder
   ) {
-    this.hours = [{value: '10h00-11h15', label: '10H00 - 11H15'}, {value: '19h00-20h15', label: '19H00 - 20H15'}]
+    this.hours = [{value: '10h00-11h15', label: '10H00 - 11H15', timestamp: '10:00:00'}, {value: '19h00-20h15', label: '19H00 - 20H15', timestamp: '19:00:00'}]
     this.form = fb.group({
-      date: fb.control(null, Validators.required),
+      dateTime: fb.control(null, Validators.required),
       time: fb.control(null, Validators.required)
     })
   }
@@ -32,6 +33,8 @@ export class CreateSlotDialog {
 
   submit(): void {
     if (this.form.valid) {
+      const hourSlot = this.hours.find(h => h.value = this.form.get('time')?.value);
+      this.form.patchValue({dateTime: this.form.get('dateTime')?.value?.toISODate() + 'T' + hourSlot?.timestamp});
       this.dialogRef.close(this.form.getRawValue());
     }
   }

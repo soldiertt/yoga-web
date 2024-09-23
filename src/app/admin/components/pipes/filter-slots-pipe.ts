@@ -12,12 +12,12 @@ export class FilterSlotsPipe implements PipeTransform {
     if (!value) { return []; }
     return value.filter(s => filterType === 'future' ? this.isFuture(s) : true)
       .slice().sort((a, b) => {
-        return a.courseDate > b.courseDate ? 1 : a.courseDate < b.courseDate ? -1 : 0
+        return a.courseTimestamp > b.courseTimestamp ? 1 : a.courseTimestamp < b.courseTimestamp ? -1 : 0
       })
   }
 
   private isFuture(slot: Slot): boolean {
-    return DateTime.fromFormat(slot.courseDate, 'yyyy-MM-dd') >= DateTime.now()
+    return DateTime.fromISO(slot.courseTimestamp) >= DateTime.now()
   }
 
 }
