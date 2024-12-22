@@ -12,6 +12,7 @@ import {SlotRestService} from '../../core/services/slot-rest-service';
 import {SaveProfile} from './actions/save-profile';
 import {UserRestService} from '../../core/services/user-rest-service';
 import {YogaUser} from "../../root/model/yoga-user";
+import {DateTime} from 'luxon';
 
 interface PublicStateModel {
   user?: YogaUser;
@@ -50,7 +51,9 @@ export class PublicState {
 
   @Selector()
   static canBook(state: PublicStateModel) {
-    return state.user?.cards?.some(c => c.status === 'ACTIVE' && c.slots.length < c.capacity);
+    return (slot: Slot) => {
+      return state.user?.cards?.some(c => c.status === 'ACTIVE' && c.slots.length < c.capacity && DateTime.fromISO(slot.courseTimestamp) < DateTime.fromISO(c.expirationTime));
+    };
   }
 
   constructor(private auth: AuthService,

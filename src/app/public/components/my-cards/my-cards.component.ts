@@ -48,7 +48,7 @@ export class MyCardsComponent {
     const dialogConfig = {
       data: {
         title: 'Commander une carte',
-        htmlContent: `<p>Vous êtes sur le point de commander une nouvelle carte pour 10 séances de Yoga. Prix: 135€, validité: 20 décembre 2024.</p>
+        htmlContent: `<p>Vous êtes sur le point de commander une nouvelle carte pour 10 séances de Yoga. Prix: 135€, validité: 3 avril 2025.</p>
                 <p>Confirmez ?</p>
                 `
       }

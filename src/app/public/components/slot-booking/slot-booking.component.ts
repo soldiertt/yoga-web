@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Select, Store} from '@ngxs/store';
-import {Observable} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import {Slot} from '../../../root/model/slot';
 import {Card} from '../../../root/model/card';
 import {ConfirmBookingDialog} from '../dialogs/confirm-booking-dialog';
@@ -19,11 +19,14 @@ import {CANCEL_DEADLINE_HOURS, MAX_PARTICIPANTS_COURSE} from '../../../core/para
 })
 export class SlotBookingComponent {
   @Select(state => state.public.publicSlots) publicSlots$: Observable<Slot[]>
-  @Select(PublicState.canBook) canBook$: Observable<boolean>
   @Input() bookedSlots: {card: Card, slot: Slot}[]
 
 
   constructor(private dialog: MatDialog, private store: Store, private datePipe: DatePipe) {
+  }
+
+  canBook(slot: Slot): Observable<boolean | undefined> {
+    return this.store.select(PublicState.canBook).pipe(map(filterFn => filterFn(slot)));
   }
 
   getBookedSlot(slotId: number): {card: Card, slot: Slot} | undefined {
@@ -56,7 +59,7 @@ export class SlotBookingComponent {
     return DateTime.fromISO(slot.courseTimestamp).diff(DateTime.now(), 'hours').hours < CANCEL_DEADLINE_HOURS
   }
 
-  bookButtonTooltip(canBook: boolean | null, participantsCount?: number): string {
+  bookButtonTooltip(canBook: boolean | undefined | null, participantsCount?: number): string {
     return canBook ? (participantsCount! < MAX_PARTICIPANTS_COURSE ? 'Réserver cette séance' : 'Cette séance est complète') :
       'Vous ne pouvez pas réserver à ce stade, vérifier que vous êtes connecté et que vous disposez d\'une carte active et non remplie.'
   }

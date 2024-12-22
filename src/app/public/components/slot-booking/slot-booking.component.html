@@ -17,9 +17,9 @@
         </div>
       </div>
       <div>
-        <div [matTooltip]="bookButtonTooltip((canBook$ | async), slot.participantsCount)" *ngIf="!getBookedSlot(slot.id)">
+        <div [matTooltip]="bookButtonTooltip((canBook(slot) | async), slot.participantsCount)" *ngIf="!getBookedSlot(slot.id)">
           <button mat-flat-button color="primary"
-                    [disabled]="!(canBook$ | async) || slotIsFull(slot)"
+                    [disabled]="!(canBook(slot) | async) || slotIsFull(slot)"
                     (click)="bookSlot(slot)">
               Réserver
           </button>
