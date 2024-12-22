@@ -37,7 +37,7 @@ export class CreateSlotDialog {
 
   submit(): void {
     if (this.form.valid) {
-      const hourSlot = this.hours.find(h => h.value = this.form.get('time')?.value);
+      const hourSlot = this.hours.find(h => h.value === this.form.get('time')?.value);
       this.form.patchValue({dateTime: this.form.get('dateTime')?.value?.toISODate() + 'T' + hourSlot?.timestamp});
       this.dialogRef.close(this.form.getRawValue());
     }
