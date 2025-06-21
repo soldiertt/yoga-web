@@ -5,8 +5,8 @@
       <p>Vous n'avez actuellement aucune carte, interessé par une carte 10 séances ?</p>
       <p>Deux options s'offrent à vous:</p>
       <ul>
-        <li>Prix: <strong>150€</strong> (Durée de validité de 1 an)</li>
-        <li>Prix: <strong>135€</strong> (Durée de validité jusqu'au 30 juin 2025)</li>
+        <li>Prix: <strong>{{LONG_CARD_PRICE}} €</strong> (Durée de validité de 1 an)</li>
+        <li>Prix: <strong>{{SHORT_CARD_PRICE}} €</strong> (Durée de validité jusqu'au 30 juin 2025)</li>
       </ul>
       <p>Après avoir commandé cette carte, veuillez payer le montant à l'aide d'un virement bancaire
         avec les références suivantes:</p>
@@ -19,8 +19,8 @@
         vous serez alors en mesure de faire vos réservations de séances en ligne.</p>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="orderCardLong()">Commander une carte à 150€</button>
-      <button mat-raised-button color="primary" (click)="orderCardShort()">Commander une carte à 135€</button>
+      <button mat-raised-button color="primary" (click)="orderCardLong()">Commander une carte à {{LONG_CARD_PRICE}} €</button>
+      <button mat-raised-button color="primary" (click)="orderCardShort()">Commander une carte à {{SHORT_CARD_PRICE}} €</button>
     </mat-card-actions>
   </ng-container>
   <ng-template #hasCards>
@@ -61,12 +61,12 @@
       <div *ngIf="singleCardIsFull$ | async">
         <p>Interessé par une nouvelle carte 10 séances ?</p>
         <ul>
-          <li>Prix: <strong>150€</strong> (Durée de validité de 1 an)</li>
-          <li>Prix: <strong>135€</strong> (Durée de validité jusqu'au 30 juin 2025)</li>
+          <li>Prix: <strong>{{LONG_CARD_PRICE}} €</strong> (Durée de validité de 1 an)</li>
+          <li>Prix: <strong>{{SHORT_CARD_PRICE}} €</strong> (Durée de validité jusqu'au 30 juin 2025)</li>
         </ul>
         <mat-card-actions>
-          <button mat-raised-button color="primary" (click)="orderCardLong()">Commander une carte à 150€</button>
-          <button mat-raised-button color="primary" (click)="orderCardShort()">Commander une carte à 135€</button>
+          <button mat-raised-button color="primary" (click)="orderCardLong()">Commander une carte à {{LONG_CARD_PRICE}} €</button>
+          <button mat-raised-button color="primary" (click)="orderCardShort()">Commander une carte à {{SHORT_CARD_PRICE}} €</button>
         </mat-card-actions>
       </div>
     </mat-card-content>
