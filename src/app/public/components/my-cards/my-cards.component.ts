@@ -7,7 +7,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {Select, Store} from '@ngxs/store';
 import {PublicState} from '../../state/public-state';
 import {Observable} from 'rxjs';
-import {LONG_CARD_PRICE, SHORT_CARD_PRICE} from '../../constants';
+import {LONG_CARD_PRICE, SHORT_CARD_EXPIRATION, SHORT_CARD_PRICE} from '../../constants';
 
 @Component({
   selector: 'yog-my-cards',
@@ -49,7 +49,7 @@ export class MyCardsComponent {
     const dialogConfig = {
       data: {
         title: 'Commander une carte',
-        htmlContent: `<p>Vous êtes sur le point de commander une nouvelle carte pour 10 séances de Yoga. Prix: ${SHORT_CARD_PRICE} €, validité: 30 juin 2025.</p>
+        htmlContent: `<p>Vous êtes sur le point de commander une nouvelle carte pour 10 séances de Yoga. Prix: ${SHORT_CARD_PRICE} €, validité: ${SHORT_CARD_EXPIRATION}.</p>
                 <p>Confirmez ?</p>
                 `
       }
@@ -64,4 +64,5 @@ export class MyCardsComponent {
 
   protected readonly SHORT_CARD_PRICE = SHORT_CARD_PRICE;
   protected readonly LONG_CARD_PRICE = LONG_CARD_PRICE;
+  protected readonly SHORT_CARD_EXPIRATION = SHORT_CARD_EXPIRATION;
 }

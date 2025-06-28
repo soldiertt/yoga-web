@@ -6,7 +6,7 @@
       <p>Deux options s'offrent à vous:</p>
       <ul>
         <li>Prix: <strong>{{LONG_CARD_PRICE}} €</strong> (Durée de validité de 1 an)</li>
-        <li>Prix: <strong>{{SHORT_CARD_PRICE}} €</strong> (Durée de validité jusqu'au 30 juin 2025)</li>
+        <li>Prix: <strong>{{SHORT_CARD_PRICE}} €</strong> (Durée de validité jusqu'au {{SHORT_CARD_EXPIRATION}})</li>
       </ul>
       <p>Après avoir commandé cette carte, veuillez payer le montant à l'aide d'un virement bancaire
         avec les références suivantes:</p>
@@ -62,7 +62,7 @@
         <p>Interessé par une nouvelle carte 10 séances ?</p>
         <ul>
           <li>Prix: <strong>{{LONG_CARD_PRICE}} €</strong> (Durée de validité de 1 an)</li>
-          <li>Prix: <strong>{{SHORT_CARD_PRICE}} €</strong> (Durée de validité jusqu'au 30 juin 2025)</li>
+          <li>Prix: <strong>{{SHORT_CARD_PRICE}} €</strong> (Durée de validité jusqu'au {{SHORT_CARD_EXPIRATION}})</li>
         </ul>
         <mat-card-actions>
           <button mat-raised-button color="primary" (click)="orderCardLong()">Commander une carte à {{LONG_CARD_PRICE}} €</button>
