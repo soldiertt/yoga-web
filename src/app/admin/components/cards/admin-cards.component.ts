@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {MatDialog} from "@angular/material/dialog";
 import {StandardConfirmDialog} from "../../../shared/components/standard-confirm-dialog";
 import {Card} from '../../../root/model/card';
-import {DeleteCard, ValidateCard} from '../../state/admin-actions';
+import {DeleteCard, ToggleActiveCards, ValidateCard} from '../../state/admin-actions';
 
 @Component({
   templateUrl: './admin-cards.component.html',
@@ -32,4 +32,7 @@ export class AdminCardsComponent {
     });
   }
 
+  toggleActiveCards(checked: boolean) : void {
+    this.store.dispatch(new ToggleActiveCards(checked))
+  }
 }

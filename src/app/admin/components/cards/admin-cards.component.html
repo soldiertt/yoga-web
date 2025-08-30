@@ -1,6 +1,8 @@
 <mat-toolbar color="accent">
   <h1>Demande de cartes</h1>
   <span class="yo-expand"></span>
+  <mat-checkbox (change)="toggleActiveCards($event.checked)">Seulement cartes actives</mat-checkbox>
+  <span class="yo-expand"></span>
 </mat-toolbar>
 <main>
   <table mat-table [dataSource]="cards$" class="mat-elevation-z8">

@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Action, State, StateContext} from '@ngxs/store';
 import {Slot} from '../../root/model/slot';
-import {CreateSlot, DeleteCard, DeleteSlot, LoadAdminState, ValidateCard} from './admin-actions';
+import {CreateSlot, DeleteCard, DeleteSlot, LoadAdminState, ToggleActiveCards, ValidateCard} from './admin-actions';
 import {SlotRestService} from '../../core/services/slot-rest-service';
-import {combineLatest, tap} from 'rxjs';
+import {combineLatest, map, tap} from 'rxjs';
 import {append, patch, removeItem, updateItem} from "@ngxs/store/operators";
 import {CardRestService} from '../../core/services/card-rest-service';
 import {Card} from '../../root/model/card';
@@ -88,5 +88,15 @@ export class AdminState {
         )
       })
     )
+  }
+
+  @Action(ToggleActiveCards)
+  toggleActiveCards(ctx: StateContext<AdminStateModel>, action: ToggleActiveCards) {
+    return this.cardRestService.manageFindAll().pipe(
+      map(cards => action.active ? cards.filter(card => card.status === 'ACTIVE') : cards),
+      tap(cards => {
+        ctx.patchState({cards})
+      })
+    );
   }
 }

@@ -19,3 +19,8 @@ export class DeleteCard {
   static readonly type = '[Admin] Delete card';
   constructor(public id: number) {}
 }
+export class ToggleActiveCards {
+  static readonly type = '[Admin] Toggle active cards';
+  constructor(public active: boolean) {
+  }
+}
