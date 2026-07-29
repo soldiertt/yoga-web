@@ -23,6 +23,8 @@ export class CreateSlotDialog {
     this.hours = [
       {value: '09h30-10h45', label: '09H30 - 10H45', timestamp: '09:30:00'},
       {value: '10h00-11h15', label: '10H00 - 11H15', timestamp: '10:00:00'},
+      {value: '11h15-12h30', label: '11H15 - 12H30', timestamp: '11:15:00'},
+      {value: '18h30-19h45', label: '18H30 - 19H45', timestamp: '18:30:00'},
       {value: '19h00-20h15', label: '19H00 - 20H15', timestamp: '19:00:00'},
       {value: '19h15-20h30', label: '19H15 - 20H30', timestamp: '19:15:00'}
     ]
