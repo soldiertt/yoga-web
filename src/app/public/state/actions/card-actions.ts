@@ -6,6 +6,10 @@ export class CreateCardShort {
   static readonly type = '[Public] Create card short';
 }
 
+export class CreateCardMedium {
+  static readonly type = '[Public] Create card medium';
+}
+
 
 export class BookSlot {
   static readonly type = '[Public] Book slot';

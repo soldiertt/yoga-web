@@ -29,6 +29,10 @@ export class CardRestService {
     return this.http.post<Card>(`${this.BASE_URL}/private/${this.entityName()}/short`, {})
   }
 
+  privateCreateMedium(): Observable<Card> {
+    return this.http.post<Card>(`${this.BASE_URL}/private/${this.entityName()}/medium`, {})
+  }
+
   privateBook(slotId: number, emailConfirmation: boolean): Observable<Card> {
     return this.http.post<Card>(`${this.BASE_URL}/private/${this.entityName()}/slots`, {slotId, emailConfirmation})
   }
